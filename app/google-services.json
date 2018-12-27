@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "319202021211",
+    "firebase_url": "https://przepisowo.firebaseio.com",
+    "project_id": "przepisowo",
+    "storage_bucket": "przepisowo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:319202021211:android:374e1c6280598952",
+        "android_client_info": {
+          "package_name": "com.example.a.przepisowo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "319202021211-rngeo9cslr8gle7eaigf1f830njndp1l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.a.przepisowo",
+            "certificate_hash": "07e966da6a949c4165ffd714bd54c1e883501e06"
+          }
+        },
+        {
+          "client_id": "319202021211-22otpjkjto8jdreqdbu70bn74r2df8ko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMxFgLOYmMQZirKwW8HyI_v28TvMVivAw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "319202021211-22otpjkjto8jdreqdbu70bn74r2df8ko.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
