@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <item
+        android:id="@+id/ustawieniaUzytkownika"
+        app:showAsAction="never"
+        android:title="Ustawienia uzytkownika"/>
+    <item
+        android:id="@+id/costam"
+        app:showAsAction="never"
+        android:title="Wyloguj"/>
+    <item
+        android:id="@+id/costam2"
+        app:showAsAction="never"
+        android:title="Test"/>
+
+</menu>
