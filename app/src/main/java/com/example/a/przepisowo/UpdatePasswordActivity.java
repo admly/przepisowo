@@ -59,7 +59,7 @@ public class UpdatePasswordActivity extends AppCompatActivity implements View.On
                     Toast.makeText(UpdatePasswordActivity.this, "Password changed.", Toast.LENGTH_LONG).show();
                     goToSettings();
                 } else if (!task.isSuccessful()){
-                    Log.d(TAG, "createAccount:" + task.getException());
+                    Log.d(TAG, "updatePassword:" + task.getException());
                     Toast.makeText(UpdatePasswordActivity.this, "Password update failed. Try again later.", Toast.LENGTH_LONG).show();
                 }
             }
