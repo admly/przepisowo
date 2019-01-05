@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.signOutButton).setOnClickListener(this);
         findViewById(R.id.verifyEmailButton).setOnClickListener(this);
 
+
     }
 
     // [START on_start_check_user]
@@ -55,6 +56,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(mAuth.getCurrentUser() != null){
+            goToMainActivity();
+        }
         updateUI(currentUser);
     }
     // [END on_start_check_user]
@@ -146,9 +150,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void goToMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
-        EditText editText = (EditText) findViewById(R.id.fieldEmail);
-        String message = editText.getText().toString();
-        intent.putExtra("mesydz", message);
         startActivity(intent);
     }
 

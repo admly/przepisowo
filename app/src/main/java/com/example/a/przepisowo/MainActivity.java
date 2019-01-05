@@ -5,16 +5,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView txt;
+    private FirebaseAuth mAuth;
+    private TextView helloUser;
 
     /**
-     * Obsługa klikniecia w ustawienia usera
+     * Dodaje menu do action bara
      * @param menu
      * @return
      */
@@ -26,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Obsługa dropdown menu
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -34,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.ustawieniaUzytkownika:
                 goToSettings();
                 return true;
-            case R.id.costam:
+            case R.id.WylogujUseraViaDropdown:
+                mAuth.signOut();
+                goToLoginActivity();
                 return true;
             case R.id.costam2:
                 Toast.makeText(MainActivity.this, "Dobrze slyszales",
@@ -46,25 +57,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToSettings() {
-        Intent intent = new Intent(this, Settings.class);
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mAuth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (mAuth != null) {
+            helloUser = findViewById(R.id.HelloUserTv);
+            if (!mAuth.getCurrentUser().getDisplayName().isEmpty()) {
+                helloUser.setText("Hello, " + mAuth.getCurrentUser().getDisplayName());
+            } else {
+                helloUser.setText("Hello, " + mAuth.getCurrentUser().getEmail().split("@")[0]);
+            }
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Bundle extras = getIntent().getExtras();
-        if(extras != null){
-            String result = extras.getString("mesydz");
-            txt = findViewById(R.id.mesydz);
-            txt.setText(result);
-        }
+    }
+
+    public void goToTwojePrzepisy() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 }
