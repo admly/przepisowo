@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.emailSignInButton).setOnClickListener(this);
         findViewById(R.id.emailCreateAccountButton).setOnClickListener(this);
         findViewById(R.id.signOutButton).setOnClickListener(this);
-        findViewById(R.id.verifyEmailButton).setOnClickListener(this);
+//        findViewById(R.id.verifyEmailButton).setOnClickListener(this);
 
 
     }
@@ -85,8 +85,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 updateUI(user);
                                 goToMainActivity();
                             } else {
-                                Toast.makeText(LoginActivity.this, "Confirm your email dude.",
+                                Toast.makeText(LoginActivity.this, "Confirmation email was sent. Please activate your account.",
                                         Toast.LENGTH_LONG).show();
+                                sendEmailVerification();
                             }
                         } else {
                             // If sign in fails, display a message to the user.
@@ -125,8 +126,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 updateUI(user);
                                 goToMainActivity();
                             } else {
-                                Toast.makeText(LoginActivity.this, "Confirm your email dude.",
+                                Toast.makeText(LoginActivity.this, "Confirm your email.",
                                         Toast.LENGTH_LONG).show();
+                                sendEmailVerification();
                             }
 
                         } else {
@@ -161,7 +163,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void sendEmailVerification() {
         // Disable button
-        findViewById(R.id.verifyEmailButton).setEnabled(false);
+//        findViewById(R.id.verifyEmailButton).setEnabled(false);
 
         // Send verification email
         // [START send_email_verification]
@@ -173,9 +175,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         public void onComplete(@NonNull Task<Void> task) {
                             // [START_EXCLUDE]
                             // Re-enable button
-                            findViewById(R.id.verifyEmailButton).setEnabled(true);
+//                            findViewById(R.id.verifyEmailButton).setEnabled(true);
 
                             if (task.isSuccessful()) {
+                                Log.e(TAG, "sendEmailVerification, email sent");
+
                                 Toast.makeText(LoginActivity.this,
                                         "Verification email sent to " + user.getEmail(),
                                         Toast.LENGTH_SHORT).show();
@@ -269,9 +273,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
         } else if (i == R.id.signOutButton) {
             signOut();
-        } else if (i == R.id.verifyEmailButton) {
-            sendEmailVerification();
         }
+//        } else if (i == R.id.verifyEmailButton) {
+//            sendEmailVerification();
+//        }
     }
 }
 

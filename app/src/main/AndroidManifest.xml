@@ -20,7 +20,9 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".TwojePrzepisyActivity" />
         <activity android:name=".UpdateEmailActivity" />
-        <activity android:name=".UpdatePasswordActivity"></activity>
+        <activity android:name=".UpdatePasswordActivity" />
+        <activity android:name=".EdytujPrzepisActivity" />
+        <activity android:name=".EdytujSkladnikiActivity"></activity>
     </application>
 
 </manifest>

@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView txt;
     private FirebaseAuth mAuth;
@@ -75,20 +75,31 @@ public class MainActivity extends AppCompatActivity {
                 helloUser.setText("Hello, " + mAuth.getCurrentUser().getEmail().split("@")[0]);
             }
         }
+
+        findViewById(R.id.twojePrzepisyBt).setOnClickListener(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
     }
 
     public void goToTwojePrzepisy() {
-        Intent intent = new Intent(this, SettingsActivity.class);
+        Intent intent = new Intent(this, TwojePrzepisyActivity.class);
         startActivity(intent);
     }
 
     public void goToLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+        int i = view.getId();
+        if (i == R.id.twojePrzepisyBt) {
+            goToTwojePrzepisy();
+        }
     }
 }
