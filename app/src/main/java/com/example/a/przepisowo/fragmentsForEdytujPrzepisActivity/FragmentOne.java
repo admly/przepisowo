@@ -11,8 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.a.przepisowo.EdytujSkladnikiActivity;
-import com.example.a.przepisowo.MainActivity;
+import com.example.a.przepisowo.Constans;
+import com.example.a.przepisowo.EdytujSkladnikActivity;
 import com.example.a.przepisowo.R;
 import com.example.a.przepisowo.model.RecipeModel;
 
@@ -24,6 +24,7 @@ public class FragmentOne extends Fragment {
     private ArrayAdapter<String> adapter;
     private List<String> foodList;
     RecipeModel recipeModel;
+    String recipeId;
 
     public FragmentOne() {
         // Required empty public constructor
@@ -33,7 +34,8 @@ public class FragmentOne extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        recipeModel = (RecipeModel) this.getArguments().getSerializable("object");
+        recipeModel = (RecipeModel) this.getArguments().getSerializable(Constans.RECIPE_OBJECT);
+        recipeId = this.getArguments().getString(Constans.RECIPE_ID);
 
     }
 
@@ -51,15 +53,18 @@ public class FragmentOne extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                goToEdytujSkladniki();
+                goToEdytujSkladnik(i);
             }
         });
         // Inflate the layout for this fragment
         return rootView;
     }
 
-    private void goToEdytujSkladniki() {
-            Intent intent = new Intent(this.getContext(), EdytujSkladnikiActivity.class);
+    private void goToEdytujSkladnik(int ingredientId) {
+            Intent intent = new Intent(this.getContext(), EdytujSkladnikActivity.class);
+            intent.putExtra(Constans.RECIPE_OBJECT, recipeModel);
+            intent.putExtra(Constans.RECIPE_ID, recipeId);
+            intent.putExtra(Constans.INGREDIENT_ID, ingredientId);
             startActivity(intent);
     }
 

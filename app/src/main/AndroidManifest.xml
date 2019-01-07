@@ -22,7 +22,7 @@
         <activity android:name=".UpdateEmailActivity" />
         <activity android:name=".UpdatePasswordActivity" />
         <activity android:name=".EdytujPrzepisActivity" />
-        <activity android:name=".EdytujSkladnikiActivity"></activity>
+        <activity android:name=".EdytujSkladnikActivity"></activity>
     </application>
 
 </manifest>

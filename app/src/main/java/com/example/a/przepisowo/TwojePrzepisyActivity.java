@@ -24,7 +24,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -109,8 +108,6 @@ public class TwojePrzepisyActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int i, long id) {
-//                Toast.makeText(TwojePrzepisyActivity.this, "GridView Item: " + recipesNameList.get(+i), Toast.LENGTH_LONG).show();
-
                 //przeslij ID przepisu do edycji
                 for (Map.Entry<String, RecipeModel> recipe : recipesList.entrySet()) {
                     if (recipe.getValue().getName().equals(recipesNameList.get(+i))) {
@@ -122,9 +119,10 @@ public class TwojePrzepisyActivity extends AppCompatActivity {
         });
     }
 
-    public void goToEdytujPrzepisActivity(Map.Entry<String, RecipeModel> id) {
+    public void goToEdytujPrzepisActivity(Map.Entry<String, RecipeModel> recipeWithId) {
         Intent intent = new Intent(this, EdytujPrzepisActivity.class);
-        intent.putExtra("RECIPE_ID", id.getValue());
+        intent.putExtra(Constans.RECIPE_OBJECT, recipeWithId.getValue());
+        intent.putExtra(Constans.RECIPE_ID, recipeWithId.getKey());
         startActivity(intent);
         startActivity(intent);
     }

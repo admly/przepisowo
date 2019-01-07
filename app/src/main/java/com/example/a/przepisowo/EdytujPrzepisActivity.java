@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EdytujPrzepisActivity extends AppCompatActivity {
-
+    String newIngredientNameAfterEditing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +27,20 @@ public class EdytujPrzepisActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edytuj_przepis);
 
 
-        RecipeModel object = (RecipeModel) getIntent().getSerializableExtra("RECIPE_ID");
-
+        RecipeModel object = (RecipeModel) getIntent().getSerializableExtra(Constans.RECIPE_OBJECT);
+        String recipeId = getIntent().getStringExtra(Constans.RECIPE_ID);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        // Add Fragments to adapter one by one
 
+//        object.getIngredients().set(this.getIntent().getIntExtra("INGREDIENT_ID", -1),
+//                this.getIntent().getStringExtra("NEW_INGREDIENT_NAME"));
+
+
+        // Add Fragments to adapter one by one
         Bundle bundle = new Bundle();
-        bundle.putSerializable("object", object);
+        bundle.putSerializable(Constans.RECIPE_OBJECT, object);
+        bundle.putString(Constans.RECIPE_ID, recipeId);
         FragmentOne fg1 = new FragmentOne();
         FragmentTwo fg2 = new FragmentTwo();
         FragmentThree fg3 = new FragmentThree();
