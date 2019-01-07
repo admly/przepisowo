@@ -4,14 +4,16 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 
-import com.example.a.przepisowo.fragmentsForEdytujPrzepisActivity.FragmentOne;
+import com.example.a.przepisowo.fragmentsForEdytujPrzepisActivity.SkladnikiFragment;
 import com.example.a.przepisowo.fragmentsForEdytujPrzepisActivity.FragmentThree;
-import com.example.a.przepisowo.fragmentsForEdytujPrzepisActivity.FragmentTwo;
+import com.example.a.przepisowo.fragmentsForEdytujPrzepisActivity.PrzepisFragment;
 import com.example.a.przepisowo.model.RecipeModel;
 
 
@@ -25,6 +27,7 @@ public class EdytujPrzepisActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edytuj_przepis);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         RecipeModel object = (RecipeModel) getIntent().getSerializableExtra(Constans.RECIPE_OBJECT);
@@ -32,17 +35,12 @@ public class EdytujPrzepisActivity extends AppCompatActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-
-//        object.getIngredients().set(this.getIntent().getIntExtra("INGREDIENT_ID", -1),
-//                this.getIntent().getStringExtra("NEW_INGREDIENT_NAME"));
-
-
         // Add Fragments to adapter one by one
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constans.RECIPE_OBJECT, object);
         bundle.putString(Constans.RECIPE_ID, recipeId);
-        FragmentOne fg1 = new FragmentOne();
-        FragmentTwo fg2 = new FragmentTwo();
+        SkladnikiFragment fg1 = new SkladnikiFragment();
+        PrzepisFragment fg2 = new PrzepisFragment();
         FragmentThree fg3 = new FragmentThree();
         fg1.setArguments(bundle);
         fg2.setArguments(bundle);
@@ -56,6 +54,17 @@ public class EdytujPrzepisActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 
@@ -86,5 +95,7 @@ class ViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mFragmentTitleList.get(position);
     }
+
+
 }
 

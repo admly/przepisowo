@@ -4,4 +4,5 @@
     android:layout_height="wrap_content"
     android:textAlignment="center"
     android:textSize="25sp"
-    android:textStyle="italic"></TextView>
+    android:singleLine="false"
+    android:textStyle="italic"/>

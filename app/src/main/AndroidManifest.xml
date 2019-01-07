@@ -18,11 +18,25 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".TwojePrzepisyActivity" />
+        <activity android:name=".TwojePrzepisyActivity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+
+        </activity>
         <activity android:name=".UpdateEmailActivity" />
         <activity android:name=".UpdatePasswordActivity" />
-        <activity android:name=".EdytujPrzepisActivity" />
-        <activity android:name=".EdytujSkladnikActivity"></activity>
+        <activity android:name=".EdytujPrzepisActivity"
+            android:parentActivityName=".TwojePrzepisyActivity">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity" />
+        </activity>
+
+        <activity android:name=".EdytujSkladnikActivity" />
+        <activity android:name=".DodajPrzepis" />
+        <activity android:name=".EdytujStepActivity"></activity>
     </application>
 
 </manifest>

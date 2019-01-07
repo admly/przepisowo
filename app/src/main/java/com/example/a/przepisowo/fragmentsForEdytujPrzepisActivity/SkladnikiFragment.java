@@ -19,14 +19,14 @@ import com.example.a.przepisowo.model.RecipeModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentOne extends Fragment {
+public class SkladnikiFragment extends Fragment {
     private ListView list;
     private ArrayAdapter<String> adapter;
     private List<String> foodList;
     RecipeModel recipeModel;
     String recipeId;
 
-    public FragmentOne() {
+    public SkladnikiFragment() {
         // Required empty public constructor
     }
 
@@ -42,7 +42,7 @@ public class FragmentOne extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_one, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_skladniki, container, false);
 
         foodList = new ArrayList<>();
         foodList.addAll(recipeModel.getIngredients());

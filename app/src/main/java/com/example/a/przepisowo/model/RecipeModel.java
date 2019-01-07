@@ -10,6 +10,16 @@ public class RecipeModel implements Serializable {
     private ArrayList<String> steps;
     private int time;
 
+    public RecipeModel(String UID, ArrayList<String> ingredients,  String name, ArrayList<String> steps, int time){
+        this.UID = UID;
+        this.ingredients = ingredients;
+        this.name = name;
+        this.steps = steps;
+        this.time = time;
+    }
+
+    public RecipeModel(){}
+
     public String getUID() {
         return UID;
     }

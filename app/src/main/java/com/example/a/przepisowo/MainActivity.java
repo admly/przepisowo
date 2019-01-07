@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         findViewById(R.id.twojePrzepisyBt).setOnClickListener(this);
+        findViewById(R.id.DodajPrzepisBt).setOnClickListener(this);
     }
 
     @Override
@@ -95,11 +96,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
+    private void goToDodajPrzepis() {
+        Intent intent = new Intent(this, DodajPrzepis.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.twojePrzepisyBt) {
             goToTwojePrzepisy();
+        } if (i == R.id.DodajPrzepisBt){
+            goToDodajPrzepis();
         }
     }
+
 }

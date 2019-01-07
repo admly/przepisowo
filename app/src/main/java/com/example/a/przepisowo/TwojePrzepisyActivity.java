@@ -2,9 +2,11 @@ package com.example.a.przepisowo;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -49,7 +51,7 @@ public class TwojePrzepisyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twoje_przepisy);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         db = FirebaseFirestore.getInstance();
     }
 
@@ -74,7 +76,7 @@ public class TwojePrzepisyActivity extends AppCompatActivity {
     private void retrieveDataFromFirestore(final FetchRecipesCallback callback) {
         docs = new HashMap<>();
 
-        db.collection("recipes").whereEqualTo("UID", currentUser.getUid())
+        db.collection("recipes").whereEqualTo("uid", currentUser.getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -125,6 +127,17 @@ public class TwojePrzepisyActivity extends AppCompatActivity {
         intent.putExtra(Constans.RECIPE_ID, recipeWithId.getKey());
         startActivity(intent);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

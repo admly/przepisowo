@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DodajPrzepis">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="80dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="0">
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Nazwa przepisu:"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </TableRow>
+
+            <TableRow android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/nazwaPrzepisuEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="nazwa"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:textAlignment="center"
+                    tools:layout_editor_absoluteX="84dp"
+                    tools:layout_editor_absoluteY="60dp" />
+
+            </TableRow>
+
+            <TableRow>
+
+                <TextView />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Składniki:"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="162dp"
+                    tools:layout_editor_absoluteY="143dp" />
+            </TableRow>
+
+            <TableRow>
+
+                <EditText
+                    android:id="@+id/skladnikiEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="podaj składniki oddzielone przecinkami"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:textAlignment="center"
+                    tools:layout_editor_absoluteX="84dp"
+                    tools:layout_editor_absoluteY="184dp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView />
+            </TableRow>
+            =
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Przepis:"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="162dp"
+                    tools:layout_editor_absoluteY="261dp" />
+            </TableRow>
+
+            <TableRow>
+
+                <EditText
+                    android:id="@+id/przepisEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="miejsce na kroki przepisu, oddzielone przecinkami"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:textAlignment="center"
+                    tools:layout_editor_absoluteX="82dp"
+                    tools:layout_editor_absoluteY="303dp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Czas wykonania:"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="162dp"
+                    tools:layout_editor_absoluteY="368dp" />
+            </TableRow>
+
+            <TableRow>
+
+                <EditText
+                    android:id="@+id/czasEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="podaj czas wykonania (minuty)"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:textAlignment="center"
+                    tools:layout_editor_absoluteX="80dp"
+                    tools:layout_editor_absoluteY="405dp" />
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/dodajNowyPrzepisBt"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/roundedbutton"
+        android:text="Dodaj!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        app:layout_constraintVertical_bias="0.542" />
+
+</android.support.constraint.ConstraintLayout>
