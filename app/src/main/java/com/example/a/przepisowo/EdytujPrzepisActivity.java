@@ -13,7 +13,7 @@ import android.view.MenuItem;
 
 import com.example.a.przepisowo.fragmentsForEdytujPrzepisActivity.SkladnikiFragment;
 import com.example.a.przepisowo.fragmentsForEdytujPrzepisActivity.FragmentThree;
-import com.example.a.przepisowo.fragmentsForEdytujPrzepisActivity.PrzepisFragment;
+import com.example.a.przepisowo.fragmentsForEdytujPrzepisActivity.KrokiPrzepisuFragment;
 import com.example.a.przepisowo.model.RecipeModel;
 
 
@@ -40,7 +40,7 @@ public class EdytujPrzepisActivity extends AppCompatActivity {
         bundle.putSerializable(Constans.RECIPE_OBJECT, object);
         bundle.putString(Constans.RECIPE_ID, recipeId);
         SkladnikiFragment fg1 = new SkladnikiFragment();
-        PrzepisFragment fg2 = new PrzepisFragment();
+        KrokiPrzepisuFragment fg2 = new KrokiPrzepisuFragment();
         FragmentThree fg3 = new FragmentThree();
         fg1.setArguments(bundle);
         fg2.setArguments(bundle);

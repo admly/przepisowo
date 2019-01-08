@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.a.przepisowo.Constans;
+import com.example.a.przepisowo.DodajSkladnikActivity;
+import com.example.a.przepisowo.DodajStepActivity;
 import com.example.a.przepisowo.EdytujSkladnikActivity;
 import com.example.a.przepisowo.EdytujStepActivity;
 import com.example.a.przepisowo.R;
@@ -20,14 +22,14 @@ import com.example.a.przepisowo.model.RecipeModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrzepisFragment extends Fragment {
+public class KrokiPrzepisuFragment extends Fragment implements View.OnClickListener {
     private ListView list;
     private ArrayAdapter<String> adapter;
     private List<String> foodList;
     RecipeModel recipeModel;
     String recipeId;
 
-    public PrzepisFragment() {
+    public KrokiPrzepisuFragment() {
         // Required empty public constructor
     }
 
@@ -43,7 +45,8 @@ public class PrzepisFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_skladniki, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_kroki_przepisu, container, false);
+        rootView.findViewById(R.id.dodajKrokPrzepisuBt).setOnClickListener(this);
 
         foodList = new ArrayList<>();
         foodList.addAll(recipeModel.getSteps());
@@ -66,6 +69,21 @@ public class PrzepisFragment extends Fragment {
         intent.putExtra(Constans.RECIPE_ID, recipeId);
         intent.putExtra(Constans.STEP_ID, stepId);
         startActivity(intent);
+    }
+
+    private void goToDodajStepActivity() {
+        Intent intent = new Intent(this.getActivity(), DodajStepActivity.class);
+        intent.putExtra(Constans.RECIPE_OBJECT, recipeModel);
+        intent.putExtra(Constans.RECIPE_ID, recipeId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+        int i = view.getId();
+        if(i == R.id.dodajKrokPrzepisuBt){
+            goToDodajStepActivity();
+        }
     }
 }
 

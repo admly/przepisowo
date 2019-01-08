@@ -11,46 +11,45 @@ import com.example.a.przepisowo.model.RecipeModel;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class DodajSkladnikActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG = "DodajSkladnikAcivity";
+public class DodajStepActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "EdytujSkladnikActivity";
     RecipeModel recipeModel;
-    int ingredientId;
-    EditText dodajSkladnikEt;
+    EditText dodajStepEt;
     String recipeId;
     FirebaseFirestore db;
-    String skladnikDoDodania;
+    String stepDoDodania;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dodaj_skladnik);
+        setContentView(R.layout.activity_dodaj_step);
 
         recipeModel = (RecipeModel) this.getIntent().getSerializableExtra(Constans.RECIPE_OBJECT);
         recipeId = this.getIntent().getStringExtra(Constans.RECIPE_ID);
         db = FirebaseFirestore.getInstance();
-        findViewById(R.id.wykonajDodajSkladnikBt).setOnClickListener(this);
-        dodajSkladnikEt = findViewById(R.id.dodajSkladnikEt);
+        findViewById(R.id.wykonajDodajStepBt).setOnClickListener(this);
+        dodajStepEt = findViewById(R.id.dodajStepEt);
     }
 
-    private void dodajSkladnik() {
-        skladnikDoDodania = dodajSkladnikEt.getText().toString();
-        dodajSkladnikDoFirestore(skladnikDoDodania);
-        recipeModel.getIngredients().add(skladnikDoDodania);
+    private void dodajStep() {
+        stepDoDodania = dodajStepEt.getText().toString();
+        dodajStepDoFirestore(stepDoDodania);
+        recipeModel.getSteps().add(stepDoDodania);
         goToEdytujPrzepisActivity();
     }
 
-    private void dodajSkladnikDoFirestore(String skladnikDoDodania) {
-        db.collection("recipes").document(recipeId).update("ingredients",
-                FieldValue.arrayUnion(skladnikDoDodania));
-        Toast.makeText(DodajSkladnikActivity.this, "Składnik dodany",
+    private void dodajStepDoFirestore(String stepDoDodania) {
+        db.collection("recipes").document(recipeId).update("steps",
+                FieldValue.arrayUnion(stepDoDodania));
+        Toast.makeText(DodajStepActivity.this, "Składnik dodany",
                 Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onClick(View view) {
         int i = view.getId();
-        if (i == R.id.wykonajDodajSkladnikBt){
-            dodajSkladnik();
+        if(i == R.id.wykonajDodajStepBt){
+            dodajStep();
         }
     }
 

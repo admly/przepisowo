@@ -20,14 +20,15 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".TwojePrzepisyActivity"></activity>
+        <activity android:name=".TwojePrzepisyActivity" />
         <activity android:name=".UpdateEmailActivity" />
         <activity android:name=".UpdatePasswordActivity" />
-        <activity android:name=".EdytujPrzepisActivity"></activity>
+        <activity android:name=".EdytujPrzepisActivity" />
         <activity android:name=".EdytujSkladnikActivity" />
         <activity android:name=".DodajPrzepis" />
         <activity android:name=".EdytujStepActivity" />
-        <activity android:name=".DodajSkladnikActivity"></activity>
+        <activity android:name=".DodajSkladnikActivity" />
+        <activity android:name=".DodajStepActivity"></activity>
     </application>
 
 </manifest>
