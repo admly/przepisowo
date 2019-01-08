@@ -28,6 +28,7 @@ public class EdytujStepActivity extends AppCompatActivity implements View.OnClic
         recipeModel = (RecipeModel) this.getIntent().getSerializableExtra(Constans.RECIPE_OBJECT);
         stepId = this.getIntent().getIntExtra(Constans.STEP_ID, -1);
         recipeId = this.getIntent().getStringExtra(Constans.RECIPE_ID);
+
         edytujStepEt = findViewById(R.id.edytujStepEt);
         db = FirebaseFirestore.getInstance();
         findViewById(R.id.edytujStepBt).setOnClickListener(this);

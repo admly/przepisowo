@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -55,6 +56,9 @@ public class DodajPrzepis extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.dodajNowyPrzepisBt) {
+            if(!validateForm()){
+                return;
+            }
             dodajPrzepisProcess();
         }
     }
@@ -97,5 +101,44 @@ public class DodajPrzepis extends AppCompatActivity implements View.OnClickListe
     public void goToTwojePrzepisy() {
         Intent intent = new Intent(this, TwojePrzepisyActivity.class);
         startActivity(intent);
+    }
+
+
+    private boolean validateForm() {
+        boolean valid = true;
+
+        String nazwaPrzepisu = nazwaPrzepisuEt.getText().toString();
+        if (TextUtils.isEmpty(nazwaPrzepisu)) {
+            nazwaPrzepisuEt.setError("Required.");
+            valid = false;
+        } else {
+            nazwaPrzepisuEt.setError(null);
+        }
+
+        String skladniki = skladnikiEt.getText().toString();
+        if (TextUtils.isEmpty(skladniki)) {
+            skladnikiEt.setError("Required.");
+            valid = false;
+        } else {
+            skladnikiEt.setError(null);
+        }
+
+        String przepis = przepisEt.getText().toString();
+        if (TextUtils.isEmpty(przepis)) {
+            przepisEt.setError("Required.");
+            valid = false;
+        } else {
+            przepisEt.setError(null);
+        }
+
+        String czas = czasEt.getText().toString();
+        if (TextUtils.isEmpty(czas)) {
+            czasEt.setError("Required.");
+            valid = false;
+        } else {
+            czasEt.setError(null);
+        }
+
+        return valid;
     }
 }

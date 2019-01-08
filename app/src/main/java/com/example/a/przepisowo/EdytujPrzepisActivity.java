@@ -27,11 +27,11 @@ public class EdytujPrzepisActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edytuj_przepis);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         RecipeModel object = (RecipeModel) getIntent().getSerializableExtra(Constans.RECIPE_OBJECT);
         String recipeId = getIntent().getStringExtra(Constans.RECIPE_ID);
+
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 

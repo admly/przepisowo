@@ -12,14 +12,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.a.przepisowo.Constans;
+import com.example.a.przepisowo.DodajSkladnikActivity;
 import com.example.a.przepisowo.EdytujSkladnikActivity;
+import com.example.a.przepisowo.MainActivity;
 import com.example.a.przepisowo.R;
 import com.example.a.przepisowo.model.RecipeModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SkladnikiFragment extends Fragment {
+public class SkladnikiFragment extends Fragment implements View.OnClickListener{
     private ListView list;
     private ArrayAdapter<String> adapter;
     private List<String> foodList;
@@ -43,6 +45,7 @@ public class SkladnikiFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_skladniki, container, false);
+        rootView.findViewById(R.id.dodajSkladnikBt).setOnClickListener(this);
 
         foodList = new ArrayList<>();
         foodList.addAll(recipeModel.getIngredients());
@@ -68,6 +71,20 @@ public class SkladnikiFragment extends Fragment {
             startActivity(intent);
     }
 
+    @Override
+    public void onClick(View view) {
+        int i = view.getId();
+        if(i == R.id.dodajSkladnikBt){
+            goToDodajSkladnikActivity();
+        }
+    }
+
+    private void goToDodajSkladnikActivity() {
+        Intent intent = new Intent(this.getActivity(), DodajSkladnikActivity.class);
+        intent.putExtra(Constans.RECIPE_OBJECT, recipeModel);
+        intent.putExtra(Constans.RECIPE_ID, recipeId);
+        startActivity(intent);
+    }
 }
 
 
