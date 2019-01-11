@@ -5,7 +5,7 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffd986">
+    android:background="#eeff41">
 
     <ScrollView
         android:id="@+id/scrollView4"
@@ -19,17 +19,18 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraintLayout2"
+            android:id="@+id/constraintLayout4"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="44dp"
                 android:layout_marginEnd="5dp"
-                android:text="Składniki:"
+                android:text="Czas przyrządzania (minuty):"
                 android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.518"
@@ -43,21 +44,13 @@
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/constraintLayout2" />
-        </android.support.constraint.ConstraintLayout>
-    </ScrollView>
+                app:layout_constraintTop_toTopOf="@+id/constraintLayout4"
+                app:layout_constraintVertical_bias="0.0" />
 
-    <Button
-        android:id="@+id/dodajSkladnikBt"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:background="@drawable/roundedbutton"
-        android:text="Dodaj skladnik"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView4" />
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

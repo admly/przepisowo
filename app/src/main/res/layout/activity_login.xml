@@ -4,51 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/pizza2"
+    android:backgroundTint="#a0ffffff"
+    android:backgroundTintMode="src_over"
     tools:context=".LoginActivity">
-
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="mStatusTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:text="mDetailTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/fieldEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="32dp"
         android:ems="10"
-        android:hint="mEmailField"
+        android:hint="email"
         android:inputType="textPersonName"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/status" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/fieldPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:ems="10"
-        android:hint="mPasswordField"
+        android:hint="haslo"
         android:inputType="textPassword"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fieldEmail" />
 
@@ -57,21 +42,21 @@
         android:layout_width="200dp"
         android:layout_height="45dp"
         android:background="@drawable/roundedbutton"
-        android:text="Sign In"
+        android:text="Zaloguj"
+        app:layout_constraintBottom_toTopOf="@+id/emailCreateAccountButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="219dp" />
+        app:layout_constraintTop_toBottomOf="@+id/fieldPassword"
+        app:layout_constraintVertical_bias="0.629" />
 
     <Button
         android:id="@+id/emailCreateAccountButton"
         android:layout_width="200dp"
         android:layout_height="45dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="108dp"
         android:background="@drawable/roundedbutton"
-        android:text="Create Account"
+        android:text="Stworz konto"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fieldPassword" />
 
@@ -79,11 +64,11 @@
         android:id="@+id/signOutButton"
         android:layout_width="200dp"
         android:layout_height="45dp"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="64dp"
         android:background="@drawable/roundedbutton"
-        android:text="Sign Out"
+        android:text="Wyloguj"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailSignInButton" />
+        app:layout_constraintTop_toBottomOf="@+id/emailCreateAccountButton" />
 
 </android.support.constraint.ConstraintLayout>

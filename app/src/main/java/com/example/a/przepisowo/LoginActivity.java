@@ -22,8 +22,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private FirebaseAuth mAuth;
     private static final String TAG = "EmailPassword";
-    private TextView mStatusTextView;
-    private TextView mDetailTextView;
     private EditText mEmailField;
     private EditText mPasswordField;
 
@@ -36,8 +34,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mAuth = FirebaseAuth.getInstance();
 
         // Views
-        mStatusTextView = findViewById(R.id.status);
-        mDetailTextView = findViewById(R.id.detail);
         mEmailField = findViewById(R.id.fieldEmail);
         mPasswordField = findViewById(R.id.fieldPassword);
 
@@ -45,7 +41,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.emailSignInButton).setOnClickListener(this);
         findViewById(R.id.emailCreateAccountButton).setOnClickListener(this);
         findViewById(R.id.signOutButton).setOnClickListener(this);
-//        findViewById(R.id.verifyEmailButton).setOnClickListener(this);
 
 
     }
@@ -69,8 +64,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!validateForm()) {
             return;
         }
-
-        //  showProgressDialog();
 
         // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -111,8 +104,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        // showProgressDialog();
-
         // [START sign_in_with_email]
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -126,7 +117,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 updateUI(user);
                                 goToMainActivity();
                             } else {
-                                Toast.makeText(LoginActivity.this, "Confirm your email.",
+                                Toast.makeText(LoginActivity.this, "Confirm your email." +
+                                                " It was sent again.",
                                         Toast.LENGTH_LONG).show();
                                 sendEmailVerification();
                             }
@@ -141,7 +133,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         // [START_EXCLUDE]
                         if (!task.isSuccessful()) {
-                            mStatusTextView.setText(R.string.auth_failed);
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Login failed. Try again.",
+                                    Toast.LENGTH_LONG).show();
                         }
                         // hideProgressDialog();
                         // [END_EXCLUDE]
@@ -162,9 +156,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void sendEmailVerification() {
-        // Disable button
-//        findViewById(R.id.verifyEmailButton).setEnabled(false);
-
         // Send verification email
         // [START send_email_verification]
         final FirebaseUser user = mAuth.getCurrentUser();
@@ -175,25 +166,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         public void onComplete(@NonNull Task<Void> task) {
                             // [START_EXCLUDE]
                             // Re-enable button
-//                            findViewById(R.id.verifyEmailButton).setEnabled(true);
 
                             if (task.isSuccessful()) {
                                 Log.e(TAG, "sendEmailVerification, email sent");
 
-                                Toast.makeText(LoginActivity.this,
-                                        "Verification email sent to " + user.getEmail(),
-                                        Toast.LENGTH_SHORT).show();
                             } else {
                                 Log.e(TAG, "sendEmailVerification", task.getException());
-                                Toast.makeText(LoginActivity.this,
-                                        "Failed to send verification email.",
-                                        Toast.LENGTH_SHORT).show();
                             }
                             // [END_EXCLUDE]
                         }
                     });
         }
-        // [END send_email_verification]
     }
 
     private boolean checkIfEmailVerified() {
@@ -241,21 +224,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void updateUI(FirebaseUser user) {
         // hideProgressDialog();
         if (user != null) {
-            mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
-                    user.getEmail(), user.isEmailVerified()));
-            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-
-//            findViewById(R.id.emailSignInButton).setVisibility(View.GONE);
-//            findViewById(R.id.verifyEmailButton).setVisibility(View.GONE);
-//            findViewById(R.id.emailCreateAccountButton).setVisibility(View.GONE);
-//            findViewById(R.id.verifyEmailButton).setEnabled(!user.isEmailVerified());
+            findViewById(R.id.emailSignInButton).setVisibility(View.GONE);
+            findViewById(R.id.emailCreateAccountButton).setVisibility(View.GONE);
         } else {
-            mStatusTextView.setText(R.string.signed_out);
-            mDetailTextView.setText(null);
-
-//            findViewById(R.id.emailSignInButton).setVisibility(View.VISIBLE);
-//            findViewById(R.id.verifyEmailButton).setVisibility(View.VISIBLE);
-//            findViewById(R.id.emailCreateAccountButton).setVisibility(View.VISIBLE);
+            findViewById(R.id.emailSignInButton).setVisibility(View.VISIBLE);
+            findViewById(R.id.emailCreateAccountButton).setVisibility(View.VISIBLE);
         }
     }
 
@@ -274,9 +247,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else if (i == R.id.signOutButton) {
             signOut();
         }
-//        } else if (i == R.id.verifyEmailButton) {
-//            sendEmailVerification();
-//        }
     }
 }
 

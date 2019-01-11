@@ -17,6 +17,8 @@ import com.example.a.przepisowo.EdytujSkladnikActivity;
 import com.example.a.przepisowo.MainActivity;
 import com.example.a.przepisowo.R;
 import com.example.a.przepisowo.model.RecipeModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,8 @@ public class SkladnikiFragment extends Fragment implements View.OnClickListener{
     private List<String> foodList;
     RecipeModel recipeModel;
     String recipeId;
+    private FirebaseAuth mAuth;
+    FirebaseUser currentUser;
 
     public SkladnikiFragment() {
         // Required empty public constructor
@@ -35,9 +39,11 @@ public class SkladnikiFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
 
         recipeModel = (RecipeModel) this.getArguments().getSerializable(Constans.RECIPE_OBJECT);
         recipeId = this.getArguments().getString(Constans.RECIPE_ID);
+
 
     }
 
@@ -46,19 +52,26 @@ public class SkladnikiFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_skladniki, container, false);
         rootView.findViewById(R.id.dodajSkladnikBt).setOnClickListener(this);
-
+        currentUser = mAuth.getCurrentUser();
+        if(recipeModel.getUID() == null || !recipeModel.getUID().equals(currentUser.getUid())){
+            rootView.findViewById(R.id.dodajSkladnikBt).setVisibility(View.INVISIBLE);
+        }
         foodList = new ArrayList<>();
         foodList.addAll(recipeModel.getIngredients());
 
         list = (ListView) rootView.findViewById(R.id.listView1);
         adapter = new ArrayAdapter<String>(this.getContext(), R.layout.row, foodList);
         list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                goToEdytujSkladnik(i);
-            }
-        });
+
+        if(recipeModel.getUID()!= null ){
+            if(currentUser.getUid().equals(recipeModel.getUID())) {
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    goToEdytujSkladnik(i);
+                }
+            });
+        }}
         // Inflate the layout for this fragment
         return rootView;
     }

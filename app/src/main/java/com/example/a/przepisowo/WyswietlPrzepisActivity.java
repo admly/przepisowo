@@ -17,22 +17,18 @@ import com.example.a.przepisowo.fragmentsForEdytujPrzepisActivity.KrokiPrzepisuF
 import com.example.a.przepisowo.model.RecipeModel;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class EdytujPrzepisActivity extends AppCompatActivity {
-    String newIngredientNameAfterEditing;
+public class WyswietlPrzepisActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edytuj_przepis);
+        setContentView(R.layout.activity_wyswietl_przepis);
 
 
         RecipeModel object = (RecipeModel) getIntent().getSerializableExtra(Constans.RECIPE_OBJECT);
         String recipeId = getIntent().getStringExtra(Constans.RECIPE_ID);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.pager1);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         // Add Fragments to adapter one by one
@@ -68,34 +64,5 @@ public class EdytujPrzepisActivity extends AppCompatActivity {
     }
 }
 
-class ViewPagerAdapter extends FragmentPagerAdapter {
-    private final List<Fragment> mFragmentList = new ArrayList<>();
-    private final List<String> mFragmentTitleList = new ArrayList<>();
 
-    public ViewPagerAdapter(FragmentManager manager) {
-        super(manager);
-    }
-
-    @Override
-    public Fragment getItem(int position) {
-        return mFragmentList.get(position);
-    }
-
-    @Override
-    public int getCount() {
-        return mFragmentList.size();
-    }
-
-    public void addFragment(Fragment fragment, String title) {
-        mFragmentList.add(fragment);
-        mFragmentTitleList.add(title);
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return mFragmentTitleList.get(position);
-    }
-
-
-}
 

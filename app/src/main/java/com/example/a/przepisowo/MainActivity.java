@@ -47,10 +47,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mAuth.signOut();
                 goToLoginActivity();
                 return true;
-            case R.id.costam2:
-                Toast.makeText(MainActivity.this, "Dobrze slyszales",
-                        Toast.LENGTH_LONG).show();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -78,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         findViewById(R.id.twojePrzepisyBt).setOnClickListener(this);
         findViewById(R.id.DodajPrzepisBt).setOnClickListener(this);
+        findViewById(R.id.wszystkiePrzepisyBt).setOnClickListener(this);
     }
 
     @Override
@@ -108,7 +105,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             goToTwojePrzepisy();
         } if (i == R.id.DodajPrzepisBt){
             goToDodajPrzepis();
+        } if (i == R.id.wszystkiePrzepisyBt){
+            goToWszystkiePrzepisy();
         }
+    }
+
+    private void goToWszystkiePrzepisy() {
+        Intent intent = new Intent(this, WszystkiePrzepisyActivity.class);
+        startActivity(intent);
     }
 
 }
