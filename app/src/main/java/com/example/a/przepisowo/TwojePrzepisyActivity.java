@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a.przepisowo.adapters.GridAdapter;
+import com.example.a.przepisowo.adapters.ListViewAdapterPrzepisyPrezentacja;
 import com.example.a.przepisowo.callbacks.FetchRecipesCallback;
 import com.example.a.przepisowo.model.RecipeModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,7 +40,7 @@ public class TwojePrzepisyActivity extends AppCompatActivity {
     FirebaseUser currentUser;
     HashMap<String, RecipeModel> docs;
     private List<String> recipesNameList;
-    GridView androidGridView;
+    ListView androidGridView;
 
 
     int[] gridViewImageId = {
@@ -50,7 +51,7 @@ public class TwojePrzepisyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_twoje_przepisy);
+        setContentView(R.layout.przepisy_prezentacja);
         db = FirebaseFirestore.getInstance();
     }
 
@@ -99,10 +100,9 @@ public class TwojePrzepisyActivity extends AppCompatActivity {
         for (Map.Entry<String, RecipeModel> recipe : recipesList.entrySet()) {
             recipesNameList.add(recipe.getValue().getName());
         }
-
         //zbuduj GridView z przepisami
-        GridAdapter adapterViewAndroid = new GridAdapter(this, recipesNameList, gridViewImageId);
-        androidGridView = (GridView) findViewById(R.id.grid_view_image_text);
+        ListViewAdapterPrzepisyPrezentacja adapterViewAndroid = new ListViewAdapterPrzepisyPrezentacja(this, recipesNameList, gridViewImageId);
+        androidGridView = (ListView) findViewById(R.id.listView2);
         androidGridView.setAdapter(adapterViewAndroid);
         androidGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -118,6 +118,25 @@ public class TwojePrzepisyActivity extends AppCompatActivity {
                 }
             }
         });
+
+//        //zbuduj GridView z przepisami
+//        GridAdapter adapterViewAndroid = new GridAdapter(this, recipesNameList, gridViewImageId);
+//        androidGridView = (GridView) findViewById(R.id.grid_view_image_text);
+//        androidGridView.setAdapter(adapterViewAndroid);
+//        androidGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view,
+//                                    int i, long id) {
+//                //przeslij ID przepisu do edycji
+//                for (Map.Entry<String, RecipeModel> recipe : recipesList.entrySet()) {
+//                    if (recipe.getValue().getName().equals(recipesNameList.get(+i))) {
+//                        goToEdytujPrzepisActivity(recipe);
+//
+//                    }
+//                }
+//            }
+//        });
     }
 
     public void goToEdytujPrzepisActivity(Map.Entry<String, RecipeModel> recipeWithId) {
