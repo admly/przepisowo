@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,65 +17,71 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView txt;
     private FirebaseAuth mAuth;
     private TextView helloUser;
+    private ImageView ivDodajPrzepis;
+    private ImageView ivPrzepisy;
 
     /**
      * Dodaje menu do action bara
      * @param menu
      * @return
      */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main, menu);
+//        return true;
+//    }
 
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+//    /**
+//     * Obsługa dropdown menu
+//     * @param menu
+//     * @return
+//     */
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item)
+//    {
+//        switch (item.getItemId())
+//        {
+//            case R.id.ustawieniaUzytkownika:
+//                goToSettings();
+//                return true;
+//            case R.id.WylogujUseraViaDropdown:
+//                mAuth.signOut();
+//                goToLoginActivity();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
-    /**
-     * Obsługa dropdown menu
-     * @param menu
-     * @return
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.ustawieniaUzytkownika:
-                goToSettings();
-                return true;
-            case R.id.WylogujUseraViaDropdown:
-                mAuth.signOut();
-                goToLoginActivity();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void goToSettings() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-    }
+//    private void goToSettings() {
+//        Intent intent = new Intent(this, SettingsActivity.class);
+//        startActivity(intent);
+//    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         mAuth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
         if (mAuth != null) {
-            helloUser = findViewById(R.id.HelloUserTv);
+            helloUser = findViewById(R.id.helloUserTv);
             if (!mAuth.getCurrentUser().getDisplayName().isEmpty()) {
-                helloUser.setText("Hello, " + mAuth.getCurrentUser().getDisplayName());
+                helloUser.setText(mAuth.getCurrentUser().getDisplayName());
             } else {
-                helloUser.setText("Hello, " + mAuth.getCurrentUser().getEmail().split("@")[0]);
+                helloUser.setText(mAuth.getCurrentUser().getEmail().split("@")[0]);
             }
         }
 
-        findViewById(R.id.twojePrzepisyBt).setOnClickListener(this);
-        findViewById(R.id.DodajPrzepisBt).setOnClickListener(this);
-        findViewById(R.id.wszystkiePrzepisyBt).setOnClickListener(this);
+        ivDodajPrzepis = findViewById(R.id.iv_dodaj_przepis);
+        ivDodajPrzepis.setClickable(true);
+        ivDodajPrzepis.setOnClickListener(this);
+
+        ivPrzepisy = findViewById(R.id.iv_przepisy);
+        ivPrzepisy.setClickable(true);
+        ivPrzepisy.setOnClickListener(this);
     }
 
     @Override
@@ -88,10 +95,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-    public void goToLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
+//    public void goToLoginActivity() {
+//        Intent intent = new Intent(this, LoginActivity.class);
+//        startActivity(intent);
+//    }
 
     private void goToDodajPrzepis() {
         Intent intent = new Intent(this, DodajPrzepis.class);
@@ -101,13 +108,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int i = view.getId();
-        if (i == R.id.twojePrzepisyBt) {
+        if (i == R.id.iv_przepisy) {
             goToTwojePrzepisy();
-        } if (i == R.id.DodajPrzepisBt){
+        } if (i == R.id.iv_dodaj_przepis) {
             goToDodajPrzepis();
-        } if (i == R.id.wszystkiePrzepisyBt){
-            goToWszystkiePrzepisy();
         }
+//        } if (i == R.id.wszystkiePrzepisyBt){
+//            goToWszystkiePrzepisy();
+//        }
     }
 
     private void goToWszystkiePrzepisy() {
