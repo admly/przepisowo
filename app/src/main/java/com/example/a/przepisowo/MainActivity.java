@@ -54,10 +54,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        }
 //    }
 
-//    private void goToSettings() {
-//        Intent intent = new Intent(this, SettingsActivity.class);
-//        startActivity(intent);
-//    }
+    private void goToSettings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
 
 
     @Override
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mAuth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main);
         if (mAuth != null) {
             helloUser = findViewById(R.id.helloUserTv);
             if (!mAuth.getCurrentUser().getDisplayName().isEmpty()) {
@@ -82,6 +82,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ivPrzepisy = findViewById(R.id.iv_przepisy);
         ivPrzepisy.setClickable(true);
         ivPrzepisy.setOnClickListener(this);
+
+        ivDodajPrzepis = findViewById(R.id.iv_logout);
+        ivDodajPrzepis.setClickable(true);
+        ivDodajPrzepis.setOnClickListener(this);
+
+        ivDodajPrzepis = findViewById(R.id.iv_user);
+        ivDodajPrzepis.setClickable(true);
+        ivDodajPrzepis.setOnClickListener(this);
     }
 
     @Override
@@ -95,10 +103,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-//    public void goToLoginActivity() {
-//        Intent intent = new Intent(this, LoginActivity.class);
-//        startActivity(intent);
-//    }
+    public void goToLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
 
     private void goToDodajPrzepis() {
         Intent intent = new Intent(this, DodajPrzepis.class);
@@ -112,10 +120,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             goToTwojePrzepisy();
         } if (i == R.id.iv_dodaj_przepis) {
             goToDodajPrzepis();
+        } if (i == R.id.iv_logout) {
+            mAuth.signOut();
+            goToLoginActivity();
+        } if (i == R.id.iv_user) {
+            goToSettings();
         }
-//        } if (i == R.id.wszystkiePrzepisyBt){
-//            goToWszystkiePrzepisy();
-//        }
     }
 
     private void goToWszystkiePrzepisy() {
