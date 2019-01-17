@@ -128,9 +128,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void goToWszystkiePrzepisy() {
-        Intent intent = new Intent(this, WszystkiePrzepisyActivity.class);
-        startActivity(intent);
-    }
 
 }

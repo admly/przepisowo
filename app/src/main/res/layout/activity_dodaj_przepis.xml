@@ -8,11 +8,18 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="341dp"
+        android:layout_height="450dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="80dp"
+        android:background="@drawable/corners_rounded_background1"
         android:fillViewport="true"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TableLayout
             android:layout_width="match_parent"
@@ -25,9 +32,10 @@
                     android:id="@+id/textView6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="40dp"
                     android:text="Nazwa przepisu:"
                     android:textAlignment="center"
+                    android:textColor="@android:color/white"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -45,6 +53,7 @@
                     android:hint="nazwa"
                     android:inputType="textCapSentences|textMultiLine"
                     android:textAlignment="center"
+                    android:textColor="@android:color/white"
                     tools:layout_editor_absoluteX="84dp"
                     tools:layout_editor_absoluteY="60dp" />
 
@@ -63,6 +72,7 @@
                     android:layout_height="wrap_content"
                     android:text="Składniki:"
                     android:textAlignment="center"
+                    android:textColor="@android:color/white"
                     android:textSize="18sp"
                     tools:layout_editor_absoluteX="162dp"
                     tools:layout_editor_absoluteY="143dp" />
@@ -78,6 +88,7 @@
                     android:hint="podaj składniki oddzielone przecinkami"
                     android:inputType="textCapSentences|textMultiLine"
                     android:textAlignment="center"
+                    android:textColor="@android:color/white"
                     tools:layout_editor_absoluteX="84dp"
                     tools:layout_editor_absoluteY="184dp" />
             </TableRow>
@@ -96,6 +107,7 @@
                     android:layout_height="wrap_content"
                     android:text="Przepis:"
                     android:textAlignment="center"
+                    android:textColor="@android:color/white"
                     android:textSize="18sp"
                     tools:layout_editor_absoluteX="162dp"
                     tools:layout_editor_absoluteY="261dp" />
@@ -111,13 +123,14 @@
                     android:hint="miejsce na kroki przepisu, oddzielone przecinkami"
                     android:inputType="textCapSentences|textMultiLine"
                     android:textAlignment="center"
+                    android:textColor="@android:color/white"
                     tools:layout_editor_absoluteX="82dp"
                     tools:layout_editor_absoluteY="303dp" />
             </TableRow>
 
             <TableRow>
 
-                <TextView />
+                <TextView android:layout_height="match_parent" />
             </TableRow>
 
             <TableRow>
@@ -128,6 +141,7 @@
                     android:layout_height="wrap_content"
                     android:text="Czas wykonania:"
                     android:textAlignment="center"
+                    android:textColor="@android:color/white"
                     android:textSize="18sp"
                     tools:layout_editor_absoluteX="162dp"
                     tools:layout_editor_absoluteY="368dp" />
@@ -143,6 +157,7 @@
                     android:hint="podaj czas wykonania (minuty)"
                     android:inputType="textCapSentences|textMultiLine"
                     android:textAlignment="center"
+                    android:textColor="@android:color/white"
                     tools:layout_editor_absoluteX="80dp"
                     tools:layout_editor_absoluteY="405dp" />
             </TableRow>

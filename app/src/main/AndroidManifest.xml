@@ -30,7 +30,6 @@
         <activity android:name=".DodajSkladnikActivity" />
         <activity android:name=".DodajStepActivity" />
         <activity android:name=".EdytujInfoActivity" />
-        <activity android:name=".WszystkiePrzepisyActivity" />
         <activity android:name=".WyswietlPrzepisActivity" />
     </application>
 

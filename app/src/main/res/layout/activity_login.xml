@@ -20,9 +20,9 @@
         android:weightSum="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:id="@+id/iv_logo"
@@ -55,11 +55,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:ems="10"
             android:color="#FFFFFFFF"
+            android:ems="10"
             android:hint="hasło"
-            android:textColor="#FFFFFFFF"
             android:inputType="textPassword"
+            android:textColor="#FFFFFFFF"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
@@ -71,8 +71,8 @@
             android:layout_width="200dp"
             android:layout_height="45dp"
             android:layout_gravity="center"
-            android:background="@drawable/roundedbutton"
             android:layout_marginTop="10dp"
+            android:background="@drawable/roundedbutton"
             android:text="Zaloguj"
             android:textColor="#FFFFFFFF"
             app:layout_constraintBottom_toTopOf="@+id/emailCreateAccountButton"
@@ -84,30 +84,30 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="100dp"
-            android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:text="Nie masz jeszcze konta?"
-                android:textColor="#FFFFFFFF"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textColor="#FFFFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/emailCreateAccountButton"
                 android:layout_width="200dp"
                 android:layout_height="45dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/roundedbutton"
                 android:text="Rejestracja"
                 android:textColor="#FFFFFFFF"
-                android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="parent" />
