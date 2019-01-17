@@ -2,20 +2,14 @@ package com.example.a.przepisowo;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
+import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.a.przepisowo.adapters.GridAdapter;
 import com.example.a.przepisowo.adapters.ListViewAdapterPrzepisyPrezentacja;
 import com.example.a.przepisowo.callbacks.FetchRecipesCallback;
 import com.example.a.przepisowo.model.RecipeModel;
@@ -32,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TwojePrzepisyActivity extends AppCompatActivity {
+public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "TwojePrzepisyActivity";
     FirebaseFirestore db;
@@ -41,7 +35,8 @@ public class TwojePrzepisyActivity extends AppCompatActivity {
     HashMap<String, RecipeModel> docs;
     private List<String> recipesNameList;
     ListView androidGridView;
-
+    CheckBox mojePrzepisy;
+    Map<String, RecipeModel> resultMap;
 
     int[] gridViewImageId = {
             R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie,
@@ -53,6 +48,8 @@ public class TwojePrzepisyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.przepisy_prezentacja);
         db = FirebaseFirestore.getInstance();
+        mojePrzepisy = findViewById(R.id.checkBox);
+        mojePrzepisy.setOnClickListener(this);
     }
 
     @Override
@@ -64,7 +61,8 @@ public class TwojePrzepisyActivity extends AppCompatActivity {
         retrieveDataFromFirestore(new FetchRecipesCallback() {
             @Override
             public void onCallback(Map<String, RecipeModel> value) {
-                setUpGridView(value);
+                resultMap = value;
+                setUpListView(resultMap);
             }
         });
     }
@@ -76,7 +74,7 @@ public class TwojePrzepisyActivity extends AppCompatActivity {
     private void retrieveDataFromFirestore(final FetchRecipesCallback callback) {
         docs = new HashMap<>();
 
-        db.collection("recipes").whereEqualTo("uid", currentUser.getUid())
+        db.collection("recipes")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -94,7 +92,7 @@ public class TwojePrzepisyActivity extends AppCompatActivity {
                 });
     }
 
-    private void setUpGridView(final Map<String, RecipeModel> recipesList) {
+    private void setUpListView(final Map<String, RecipeModel> recipesList) {
         recipesNameList = new ArrayList<>();
         //przygotuj liste nazw przepisow z Firestore
         for (Map.Entry<String, RecipeModel> recipe : recipesList.entrySet()) {
@@ -119,25 +117,8 @@ public class TwojePrzepisyActivity extends AppCompatActivity {
             }
         });
 
-//        //zbuduj GridView z przepisami
-//        GridAdapter adapterViewAndroid = new GridAdapter(this, recipesNameList, gridViewImageId);
-//        androidGridView = (GridView) findViewById(R.id.grid_view_image_text);
-//        androidGridView.setAdapter(adapterViewAndroid);
-//        androidGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view,
-//                                    int i, long id) {
-//                //przeslij ID przepisu do edycji
-//                for (Map.Entry<String, RecipeModel> recipe : recipesList.entrySet()) {
-//                    if (recipe.getValue().getName().equals(recipesNameList.get(+i))) {
-//                        goToEdytujPrzepisActivity(recipe);
-//
-//                    }
-//                }
-//            }
-//        });
-    }
+
+            }
 
     public void goToEdytujPrzepisActivity(Map.Entry<String, RecipeModel> recipeWithId) {
         Intent intent = new Intent(this, EdytujPrzepisActivity.class);
@@ -145,5 +126,24 @@ public class TwojePrzepisyActivity extends AppCompatActivity {
         intent.putExtra(Constans.RECIPE_ID, recipeWithId.getKey());
         startActivity(intent);
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+        int i = view.getId();
+
+        if(i == R.id.checkBox){
+            if(mojePrzepisy.isChecked()){
+                Map<String, RecipeModel> myRecipesMap = new HashMap<>();
+                for (Map.Entry<String, RecipeModel> recipe : resultMap.entrySet()){
+                    if(currentUser.getUid().equals(recipe.getValue().getUID())){
+                        myRecipesMap.put(recipe.getKey(), recipe.getValue());
+                    }
+                }
+                setUpListView(myRecipesMap);
+            } else {
+                setUpListView(resultMap);
+            }
+        }
     }
 }
