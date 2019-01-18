@@ -17,11 +17,13 @@ public class ListViewAdapterPrzepisyPrezentacja extends BaseAdapter {
     private Context mContext;
     private final List<String> gridViewString;
     private final int[] gridViewImageId;
+    private final List<Integer> recipesTime;
 
-    public ListViewAdapterPrzepisyPrezentacja(Context mContext, List<String> gridViewString, int[] gridViewImageId) {
+    public ListViewAdapterPrzepisyPrezentacja(Context mContext, List<String> gridViewString, int[] gridViewImageId, List<Integer> recipesTime) {
         this.mContext = mContext;
         this.gridViewString = gridViewString;
         this.gridViewImageId = gridViewImageId;
+        this.recipesTime = recipesTime;
     }
 
     @Override
@@ -56,7 +58,7 @@ public class ListViewAdapterPrzepisyPrezentacja extends BaseAdapter {
             recipeImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             recipeName.setText(gridViewString.get(i));
-            recipeTime.setText("53");
+            recipeTime.setText(String.valueOf(recipesTime.get(i)));
             recipeImg.setImageResource(gridViewImageId[i]);
         } else {
             gridViewAndroid = (View) convertView;

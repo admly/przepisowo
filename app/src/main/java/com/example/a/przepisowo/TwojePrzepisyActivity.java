@@ -94,12 +94,15 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
 
     private void setUpListView(final Map<String, RecipeModel> recipesList) {
         recipesNameList = new ArrayList<>();
+        List<Integer> recipesTime = new ArrayList<>();
         //przygotuj liste nazw przepisow z Firestore
         for (Map.Entry<String, RecipeModel> recipe : recipesList.entrySet()) {
             recipesNameList.add(recipe.getValue().getName());
+            System.out.println(recipe.getValue().getTime());
+            recipesTime.add(recipe.getValue().getTime());
         }
         //zbuduj GridView z przepisami
-        ListViewAdapterPrzepisyPrezentacja adapterViewAndroid = new ListViewAdapterPrzepisyPrezentacja(this, recipesNameList, gridViewImageId);
+        ListViewAdapterPrzepisyPrezentacja adapterViewAndroid = new ListViewAdapterPrzepisyPrezentacja(this, recipesNameList, gridViewImageId, recipesTime);
         androidGridView = (ListView) findViewById(R.id.listView2);
         androidGridView.setAdapter(adapterViewAndroid);
         androidGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
