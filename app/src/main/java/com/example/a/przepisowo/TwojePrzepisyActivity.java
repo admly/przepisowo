@@ -159,7 +159,14 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
                 currentRecipes = new HashMap<>(resultMap);
             }
             setUpListView(currentRecipes);
+        }  if(i == R.id.powrotDoMenu){
+            goToMainActivity();
         }
+    }
+
+    private void goToMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     private void setSearchListener(EditText searchBar) {
