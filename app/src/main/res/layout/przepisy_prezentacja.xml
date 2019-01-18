@@ -59,7 +59,7 @@
     <ListView
         android:id="@+id/listView2"
         android:layout_width="match_parent"
-        android:layout_height="411dp"
+        android:layout_height="530dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="10dp"
@@ -74,9 +74,16 @@
 
     <Button
         android:id="@+id/powrotDoMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/roundedbutton"
-        android:text="Powrot do menu" />
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/back"
+        android:textColor="#FFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.6" />
 </LinearLayout>
