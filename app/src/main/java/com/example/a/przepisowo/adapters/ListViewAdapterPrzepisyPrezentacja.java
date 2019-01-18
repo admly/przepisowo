@@ -49,14 +49,15 @@ public class ListViewAdapterPrzepisyPrezentacja extends BaseAdapter {
 
             gridViewAndroid = new View(mContext);
             gridViewAndroid = inflater.inflate(R.layout.table_row_przepisy_prezentacja_layout, null);
-            TextView textViewAndroid = (TextView) gridViewAndroid.findViewById(R.id.tableRowTv1);
-            TextView textViewAndroid2 = (TextView) gridViewAndroid.findViewById(R.id.tableRowTv2);
-            ImageView imageViewAndroid = (ImageView) gridViewAndroid.findViewById(R.id.tableRowIv);
+            TextView recipeName = (TextView) gridViewAndroid.findViewById(R.id.recipeTableName);
+            TextView recipeTime = (TextView) gridViewAndroid.findViewById(R.id.recipeTableTime);
+            ImageView recipeImg = (ImageView) gridViewAndroid.findViewById(R.id.recipeTableImage);
 
-            imageViewAndroid.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            recipeImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            textViewAndroid.setText(gridViewString.get(i));
-            imageViewAndroid.setImageResource(gridViewImageId[i]);
+            recipeName.setText(gridViewString.get(i));
+            recipeTime.setText("53");
+            recipeImg.setImageResource(gridViewImageId[i]);
         } else {
             gridViewAndroid = (View) convertView;
         }

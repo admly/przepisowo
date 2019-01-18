@@ -24,7 +24,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <ImageView
-            android:id="@+id/tableRowIv"
+            android:id="@+id/recipeTableImage"
             android:layout_width="72dp"
             android:layout_height="58dp"
             android:layout_alignParentStart="true"
@@ -36,33 +36,45 @@
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <TextView
-            android:id="@+id/tableRowTv1"
-            android:layout_width="158dp"
+            android:id="@+id/recipeTableName"
+            android:layout_width="160dp"
             android:layout_height="59dp"
-            android:layout_alignTop="@+id/tableRowIv"
+            android:layout_alignTop="@+id/recipeTableImage"
             android:layout_marginStart="14dp"
             android:layout_marginTop="0dp"
-            android:layout_toEndOf="@+id/tableRowIv"
+            android:layout_toEndOf="@+id/recipeTableImage"
             android:gravity="center_vertical"
             android:text="TextView"
             android:textAlignment="gravity"
             android:textColor="@android:color/white"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/tableRowTv2"
-            android:layout_width="88dp"
-            android:layout_height="60dp"
-            android:layout_alignTop="@+id/tableRowIv"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="11dp"
-            android:layout_toEndOf="@+id/tableRowTv1"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/recipeTableName"
             android:gravity="center_vertical"
-            android:text="TextView"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:textSize="24sp" />
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/iv_clock"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/clock"
+                android:contentDescription="clock"/>
+
+            <TextView
+                android:id="@+id/recipeTableTime"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="50"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
