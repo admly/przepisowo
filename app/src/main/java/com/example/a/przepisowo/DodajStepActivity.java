@@ -12,7 +12,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DodajStepActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG = "EdytujSkladnikActivity";
+    private static final String TAG = "EdytujKrokActivity";
     RecipeModel recipeModel;
     EditText dodajStepEt;
     String recipeId;
@@ -41,7 +41,7 @@ public class DodajStepActivity extends AppCompatActivity implements View.OnClick
     private void dodajStepDoFirestore(String stepDoDodania) {
         db.collection("recipes").document(recipeId).update("steps",
                 FieldValue.arrayUnion(stepDoDodania));
-        Toast.makeText(DodajStepActivity.this, "Składnik dodany",
+        Toast.makeText(DodajStepActivity.this, "Krok dodany",
                 Toast.LENGTH_LONG).show();
     }
 

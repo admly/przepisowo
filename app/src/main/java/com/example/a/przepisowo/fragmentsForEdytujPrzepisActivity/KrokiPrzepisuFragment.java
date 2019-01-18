@@ -17,6 +17,7 @@ import com.example.a.przepisowo.DodajStepActivity;
 import com.example.a.przepisowo.EdytujSkladnikActivity;
 import com.example.a.przepisowo.EdytujStepActivity;
 import com.example.a.przepisowo.R;
+import com.example.a.przepisowo.TwojePrzepisyActivity;
 import com.example.a.przepisowo.model.RecipeModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,6 +53,8 @@ public class KrokiPrzepisuFragment extends Fragment implements View.OnClickListe
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_kroki_przepisu, container, false);
         rootView.findViewById(R.id.dodajKrokPrzepisuBt).setOnClickListener(this);
+        rootView.findViewById(R.id.twojePrzepisyWsteczBt1).setOnClickListener(this);
+
         currentUser = mAuth.getCurrentUser();
         if(recipeModel.getUID() == null || !recipeModel.getUID().equals(currentUser.getUid())){
             rootView.findViewById(R.id.dodajKrokPrzepisuBt).setVisibility(View.INVISIBLE);
@@ -94,7 +97,14 @@ public class KrokiPrzepisuFragment extends Fragment implements View.OnClickListe
         int i = view.getId();
         if(i == R.id.dodajKrokPrzepisuBt){
             goToDodajStepActivity();
+        } if (i == R.id.twojePrzepisyWsteczBt1) {
+            goToTwojePrzepisy();
         }
+    }
+
+    private void goToTwojePrzepisy() {
+        Intent intent = new Intent(this.getActivity(), TwojePrzepisyActivity.class);
+        startActivity(intent);
     }
 }
 

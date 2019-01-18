@@ -15,12 +15,13 @@ import com.example.a.przepisowo.Constans;
 import com.example.a.przepisowo.EdytujInfoActivity;
 import com.example.a.przepisowo.EdytujStepActivity;
 import com.example.a.przepisowo.R;
+import com.example.a.przepisowo.TwojePrzepisyActivity;
 import com.example.a.przepisowo.model.RecipeModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentInfo extends Fragment {
+public class FragmentInfo extends Fragment implements View.OnClickListener {
     private ListView list;
     private ArrayAdapter<String> adapter;
     private List<String> foodList;
@@ -44,6 +45,8 @@ public class FragmentInfo extends Fragment {
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_info, container, false);
+        rootView.findViewById(R.id.twojePrzepisyWsteczBt3).setOnClickListener(this);
+
 
         foodList = new ArrayList<>();
         foodList.add(Integer.toString(recipeModel.getTime()));
@@ -69,6 +72,18 @@ public class FragmentInfo extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        int i = view.getId();
+
+        if (i == R.id.twojePrzepisyWsteczBt3) {
+            goToTwojePrzepisy();
+        }
+    }
+    private void goToTwojePrzepisy() {
+        Intent intent = new Intent(this.getActivity(), TwojePrzepisyActivity.class);
+        startActivity(intent);
+    }
 }
 
 

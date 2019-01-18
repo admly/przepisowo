@@ -16,6 +16,7 @@ import com.example.a.przepisowo.DodajSkladnikActivity;
 import com.example.a.przepisowo.EdytujSkladnikActivity;
 import com.example.a.przepisowo.MainActivity;
 import com.example.a.przepisowo.R;
+import com.example.a.przepisowo.TwojePrzepisyActivity;
 import com.example.a.przepisowo.model.RecipeModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,6 +53,9 @@ public class SkladnikiFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_skladniki, container, false);
         rootView.findViewById(R.id.dodajSkladnikBt).setOnClickListener(this);
+        rootView.findViewById(R.id.twojePrzepisyWsteczBt2).setOnClickListener(this);
+
+
         currentUser = mAuth.getCurrentUser();
         if(recipeModel.getUID() == null || !recipeModel.getUID().equals(currentUser.getUid())){
             rootView.findViewById(R.id.dodajSkladnikBt).setVisibility(View.INVISIBLE);
@@ -89,6 +93,8 @@ public class SkladnikiFragment extends Fragment implements View.OnClickListener{
         int i = view.getId();
         if(i == R.id.dodajSkladnikBt){
             goToDodajSkladnikActivity();
+        } if (i == R.id.twojePrzepisyWsteczBt2) {
+            goToTwojePrzepisy();
         }
     }
 
@@ -96,6 +102,10 @@ public class SkladnikiFragment extends Fragment implements View.OnClickListener{
         Intent intent = new Intent(this.getActivity(), DodajSkladnikActivity.class);
         intent.putExtra(Constans.RECIPE_OBJECT, recipeModel);
         intent.putExtra(Constans.RECIPE_ID, recipeId);
+        startActivity(intent);
+    }
+    private void goToTwojePrzepisy() {
+        Intent intent = new Intent(this.getActivity(), TwojePrzepisyActivity.class);
         startActivity(intent);
     }
 }

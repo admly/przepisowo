@@ -138,7 +138,6 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
         intent.putExtra(Constans.RECIPE_OBJECT, recipeWithId.getValue());
         intent.putExtra(Constans.RECIPE_ID, recipeWithId.getKey());
         startActivity(intent);
-        startActivity(intent);
     }
 
     @Override

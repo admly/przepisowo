@@ -19,6 +19,8 @@ public class EdytujStepActivity extends AppCompatActivity implements View.OnClic
     String recipeId;
     FirebaseFirestore db;
     String newStepName;
+    String stepDoUsuniecia;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,8 @@ public class EdytujStepActivity extends AppCompatActivity implements View.OnClic
         edytujStepEt = findViewById(R.id.edytujStepEt);
         db = FirebaseFirestore.getInstance();
         findViewById(R.id.edytujStepBt).setOnClickListener(this);
+        findViewById(R.id.usunStepBt).setOnClickListener(this);
+
     }
 
     @Override
@@ -45,12 +49,30 @@ public class EdytujStepActivity extends AppCompatActivity implements View.OnClic
         int i = view.getId();
         if(i == R.id.edytujStepBt){
             edytujStepPrzepisu();
+        } else if (i == R.id.usunStepBt) {
+            usunStep();
         }
+    }
+
+    private void usunStep() {
+        stepDoUsuniecia = edytujStepEt.getText().toString();
+        wykonajUsuwanieWFirestore();
+        recipeModel.getSteps().remove(stepId);
+        goToEdytujPrzepisActivity();
+    }
+
+    private void wykonajUsuwanieWFirestore() {
+        db.collection("recipes").document(recipeId).update("steps",
+                FieldValue.arrayRemove(recipeModel.getSteps().get(stepId)));
+        Toast.makeText(EdytujStepActivity.this, "Składnik usuniety",
+                Toast.LENGTH_LONG).show();
     }
 
     private void edytujStepPrzepisu() {
         newStepName = edytujStepEt.getText().toString();
         retrieveDataFromFirestore(newStepName);
+        recipeModel.getSteps().set(stepId, newStepName);
+        goToEdytujPrzepisActivity();
     }
 
     private void retrieveDataFromFirestore(String newStepName) {
@@ -61,15 +83,12 @@ public class EdytujStepActivity extends AppCompatActivity implements View.OnClic
         Toast.makeText(EdytujStepActivity.this, "Krok zedytowany",
                 Toast.LENGTH_LONG).show();
 
-        goToEdytujPrzepisActivity();
     }
 
     private void goToEdytujPrzepisActivity() {
         Intent intent = new Intent(this, EdytujPrzepisActivity.class);
-        recipeModel.getSteps().set(stepId, newStepName);
         intent.putExtra(Constans.RECIPE_OBJECT, recipeModel);
-        intent.putExtra(Constans.STEP_ID, newStepName);
-
+        intent.putExtra(Constans.RECIPE_ID, recipeId);
         startActivity(intent);
     }
 }
