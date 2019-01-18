@@ -66,14 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAuth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (mAuth != null) {
-            helloUser = findViewById(R.id.helloUserTv);
-            if (!mAuth.getCurrentUser().getDisplayName().isEmpty()) {
-                helloUser.setText(mAuth.getCurrentUser().getDisplayName());
-            } else {
-                helloUser.setText(mAuth.getCurrentUser().getEmail().split("@")[0]);
-            }
-        }
+
 
         ivDodajPrzepis = findViewById(R.id.iv_dodaj_przepis);
         ivDodajPrzepis.setClickable(true);
@@ -95,6 +88,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
+        if (mAuth != null) {
+            helloUser = findViewById(R.id.helloUserTv);
+            if (!mAuth.getCurrentUser().getDisplayName().isEmpty()) {
+                helloUser.setText(mAuth.getCurrentUser().getDisplayName());
+            } else {
+                helloUser.setText(mAuth.getCurrentUser().getEmail().split("@")[0]);
+            }
+        }
 
     }
 
