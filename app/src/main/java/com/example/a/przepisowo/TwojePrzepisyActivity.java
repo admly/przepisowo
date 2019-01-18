@@ -58,6 +58,7 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
         mojePrzepisy.setOnClickListener(this);
         this.searchBar = findViewById(R.id.et_search);
         searchBar.clearFocus();
+        findViewById(R.id.powrotDoMenu).setOnClickListener(this);
     }
 
     @Override
