@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.a.przepisowo.adapters.ListViewAdapterPrzepisyPrezentacja;
@@ -37,6 +40,9 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
     ListView androidGridView;
     CheckBox mojePrzepisy;
     Map<String, RecipeModel> resultMap;
+    Map<String, RecipeModel> currentRecipes;
+    Map<String, RecipeModel> myRecipes = new HashMap<>();
+    EditText searchBar;
 
     int[] gridViewImageId = {
             R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie,
@@ -50,6 +56,8 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
         db = FirebaseFirestore.getInstance();
         mojePrzepisy = findViewById(R.id.checkBox);
         mojePrzepisy.setOnClickListener(this);
+        this.searchBar = findViewById(R.id.et_search);
+        searchBar.clearFocus();
     }
 
     @Override
@@ -62,7 +70,10 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onCallback(Map<String, RecipeModel> value) {
                 resultMap = value;
-                setUpListView(resultMap);
+                currentRecipes = new HashMap<>(resultMap);
+                setUpListView(currentRecipes);
+                setSearchListener(searchBar);
+                searchBar.clearFocus();
             }
         });
     }
@@ -98,7 +109,6 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
         //przygotuj liste nazw przepisow z Firestore
         for (Map.Entry<String, RecipeModel> recipe : recipesList.entrySet()) {
             recipesNameList.add(recipe.getValue().getName());
-            System.out.println(recipe.getValue().getTime());
             recipesTime.add(recipe.getValue().getTime());
         }
         //zbuduj GridView z przepisami
@@ -136,17 +146,53 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
         int i = view.getId();
 
         if(i == R.id.checkBox){
+            searchBar.getText().clear();
             if(mojePrzepisy.isChecked()){
-                Map<String, RecipeModel> myRecipesMap = new HashMap<>();
-                for (Map.Entry<String, RecipeModel> recipe : resultMap.entrySet()){
-                    if(currentUser.getUid().equals(recipe.getValue().getUID())){
-                        myRecipesMap.put(recipe.getKey(), recipe.getValue());
+                if(myRecipes.isEmpty()) {
+                    for (Map.Entry<String, RecipeModel> recipe : resultMap.entrySet()){
+                        if(currentUser.getUid().equals(recipe.getValue().getUID())){
+                            myRecipes.put(recipe.getKey(), recipe.getValue());
+                        }
                     }
                 }
-                setUpListView(myRecipesMap);
+                currentRecipes = myRecipes;
             } else {
-                setUpListView(resultMap);
+                currentRecipes = new HashMap<>(resultMap);
+            }
+            setUpListView(currentRecipes);
+        }
+    }
+
+    private void setSearchListener(EditText searchBar) {
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() > 0) {
+                    setUpListView(filterRecipesByName(s.toString()));
+                } else {
+                    setUpListView(currentRecipes);
+                }
+            }
+        });
+    }
+
+    private Map<String, RecipeModel> filterRecipesByName(String name) {
+        Map<String, RecipeModel> filteredResult = new HashMap<>();
+        for (Map.Entry<String, RecipeModel> r : this.currentRecipes.entrySet()) {
+            if (r.getValue().getName().startsWith(name)) {
+                filteredResult.put(r.getKey(), r.getValue());
             }
         }
+        return filteredResult;
     }
 }
