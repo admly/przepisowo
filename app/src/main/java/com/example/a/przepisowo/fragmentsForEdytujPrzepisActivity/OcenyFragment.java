@@ -15,11 +15,12 @@ import com.example.a.przepisowo.model.RecipeModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.Collections;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
@@ -32,9 +33,11 @@ public class OcenyFragment extends Fragment {
     String recipeId;
     FirebaseAuth auth;
     boolean listenerLock = true;
+    String userRatingId;
 
     static final String UID_FIELD = "uid";
     static final String RECIPE_ID_FIELD = "recipeId";
+    static final String RATING_FIELD = "rating";
 
 
     @Override
@@ -56,30 +59,36 @@ public class OcenyFragment extends Fragment {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                if (!listenerLock) sendRating(rating);
+                if (!listenerLock) {
+                    sendRating(rating);
+                }
             }
         });
         return rootView;
     }
 
     private void sendRating(float rate) {
-        Rating rating = new Rating(recipeId, auth.getUid(), rate);
-        db.collection("ratings").add(rating);
+        CollectionReference ratings = db.collection("ratings");
+        if (userRatingId == null) {
+            Rating rating = new Rating(recipeId, auth.getUid(), rate);
+            ratings.add(rating);
+        } else {
+            ratings.document(userRatingId).update(RATING_FIELD, rate);
+        }
     }
 
     private void checkIfAlreadyRated(String recipeId) {
-        Query rating = db.collection("ratings")
+        final Query rating = db.collection("ratings")
                 .whereEqualTo(UID_FIELD, auth.getUid())
                 .whereEqualTo(RECIPE_ID_FIELD, recipeId);
         rating.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                List<Rating> ratings = emptyList();
-                if(task.getResult()!=null){
-                    ratings = task.getResult().toObjects(Rating.class);
-                }
-                if (!ratings.isEmpty()) {
-                    ratingBar.setRating(ratings.get(0).getRating());
+                if(task.getResult()!=null && !task.getResult().getDocuments().isEmpty()){
+                    DocumentSnapshot ratingSnapshot = task.getResult().getDocuments().get(0);
+                    userRatingId = ratingSnapshot.getId();
+                    Rating userRating = ratingSnapshot.toObject(Rating.class);
+                    ratingBar.setRating(userRating.getRating());
                 }
                 listenerLock = false;
             }
