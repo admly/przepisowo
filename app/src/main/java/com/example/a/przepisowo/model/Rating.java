@@ -34,4 +34,8 @@ public class Rating {
         this.uid = uid;
         this.rating = rating;
     }
+
+    public Rating(){
+        super();
+    }
 }
