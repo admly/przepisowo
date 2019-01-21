@@ -1,31 +1,35 @@
 package com.example.a.przepisowo.fragmentsForEdytujPrzepisActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RatingBar;
 
 import com.example.a.przepisowo.Constans;
 import com.example.a.przepisowo.R;
+import com.example.a.przepisowo.TwojePrzepisyActivity;
 import com.example.a.przepisowo.model.Rating;
 import com.example.a.przepisowo.model.RecipeModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import static java.util.Collections.emptyList;
-
-public class OcenyFragment extends Fragment {
+public class OcenyFragment extends Fragment implements View.OnClickListener {
 
     RatingBar ratingBar;
     FirebaseFirestore db;
@@ -34,6 +38,7 @@ public class OcenyFragment extends Fragment {
     FirebaseAuth auth;
     boolean listenerLock = true;
     String userRatingId;
+    List<Rating> ratings = new ArrayList<>();
 
     static final String UID_FIELD = "uid";
     static final String RECIPE_ID_FIELD = "recipeId";
@@ -47,7 +52,8 @@ public class OcenyFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         recipeModel = (RecipeModel) this.getArguments().getSerializable(Constans.RECIPE_OBJECT);
         recipeId = this.getArguments().getString(Constans.RECIPE_ID);
-        checkIfAlreadyRated(recipeId);
+        checkIfAlreadyRated();
+        gatherRatings();
     }
 
     @Override
@@ -56,6 +62,7 @@ public class OcenyFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_oceny, container, false);
         ratingBar = rootView.findViewById(R.id.userRating);
+        rootView.findViewById(R.id.ocenyWsteczBt1).setOnClickListener(this);
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -77,21 +84,50 @@ public class OcenyFragment extends Fragment {
         }
     }
 
-    private void checkIfAlreadyRated(String recipeId) {
-        final Query rating = db.collection("ratings")
-                .whereEqualTo(UID_FIELD, auth.getUid())
-                .whereEqualTo(RECIPE_ID_FIELD, recipeId);
-        rating.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.getResult()!=null && !task.getResult().getDocuments().isEmpty()){
-                    DocumentSnapshot ratingSnapshot = task.getResult().getDocuments().get(0);
-                    userRatingId = ratingSnapshot.getId();
-                    Rating userRating = ratingSnapshot.toObject(Rating.class);
-                    ratingBar.setRating(userRating.getRating());
-                }
-                listenerLock = false;
+    private void checkIfAlreadyRated() {
+        db.collection("ratings")
+            .whereEqualTo(UID_FIELD, auth.getUid())
+            .whereEqualTo(RECIPE_ID_FIELD, recipeId)
+            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        @Override
+        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            if(task.getResult()!=null && !task.getResult().getDocuments().isEmpty()){
+                DocumentSnapshot ratingSnapshot = task.getResult().getDocuments().get(0);
+                userRatingId = ratingSnapshot.getId();
+                Rating userRating = ratingSnapshot.toObject(Rating.class);
+                ratingBar.setRating(userRating.getRating());
             }
+            listenerLock = false;
+        }
         });
+    }
+
+    private void gatherRatings() {
+        db.collection("ratings")
+            .whereEqualTo(RECIPE_ID_FIELD, recipeId)
+            .limit(20)
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if(task.getResult() != null && !task.getResult().getDocuments().isEmpty()) {
+                        for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+                            ratings.add(doc.toObject(Rating.class));
+                        }
+                    }
+                }
+            });
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.ocenyWsteczBt1) {
+            goToTwojePrzepisy();
+        }
+    }
+
+    private void goToTwojePrzepisy() {
+        Intent intent = new Intent(this.getActivity(), TwojePrzepisyActivity.class);
+        startActivity(intent);
     }
 }
