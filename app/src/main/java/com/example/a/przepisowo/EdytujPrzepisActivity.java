@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 
+import com.example.a.przepisowo.fragmentsForEdytujPrzepisActivity.OcenyFragment;
 import com.example.a.przepisowo.fragmentsForEdytujPrzepisActivity.SkladnikiFragment;
 import com.example.a.przepisowo.fragmentsForEdytujPrzepisActivity.FragmentInfo;
 import com.example.a.przepisowo.fragmentsForEdytujPrzepisActivity.KrokiPrzepisuFragment;
@@ -42,13 +43,17 @@ public class EdytujPrzepisActivity extends AppCompatActivity {
         SkladnikiFragment fg1 = new SkladnikiFragment();
         KrokiPrzepisuFragment fg2 = new KrokiPrzepisuFragment();
         FragmentInfo fg3 = new FragmentInfo();
+        OcenyFragment fg4 = new OcenyFragment();
+
         fg1.setArguments(bundle);
         fg2.setArguments(bundle);
         fg3.setArguments(bundle);
+        fg4.setArguments(bundle);
 
         adapter.addFragment(fg1, "Składniki");
         adapter.addFragment(fg2, "Przepis");
         adapter.addFragment(fg3, "Czas");
+        adapter.addFragment(fg4, "Oceny");
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);

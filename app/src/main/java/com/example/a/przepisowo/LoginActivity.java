@@ -179,21 +179,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private boolean checkIfEmailVerified() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (user != null) {
-            if (user.isEmailVerified()) {
-                // user is verified, so you can finish this activity or send user to activity which you want.
-                finish();
-                Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
-                return true;
-            } else {
-                // email is not verified, so just prompt the message to the user and restart this activity.
-                // NOTE: don't forget to log out the user.
-                FirebaseAuth.getInstance().signOut();
-                return false;
-                //restart this activity
-            }
-        }
-        return false;
+//        if (user != null) {
+//            if (user.isEmailVerified()) {
+//                // user is verified, so you can finish this activity or send user to activity which you want.
+//                finish();
+//                Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
+//                return true;
+//            } else {
+//                // email is not verified, so just prompt the message to the user and restart this activity.
+//                // NOTE: don't forget to log out the user.
+//                FirebaseAuth.getInstance().signOut();
+//                return false;
+//                //restart this activity
+//            }
+//        }
+        return true;
     }
 
     private boolean validateForm() {
