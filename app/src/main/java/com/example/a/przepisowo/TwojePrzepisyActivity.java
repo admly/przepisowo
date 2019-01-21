@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -67,7 +68,7 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        retrieveDataFromFirestore(new FetchRecipesCallback() {
+        getLastRecipesFromFirestore(new FetchRecipesCallback() {
             @Override
             public void onCallback(Map<String, RecipeModel> value) {
                 resultMap = value;
@@ -83,10 +84,12 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
      * Pobierz przepisy z firestore dla aktualnego usera
      * @param callback
      */
-    private void retrieveDataFromFirestore(final FetchRecipesCallback callback) {
+    private void getLastRecipesFromFirestore(final FetchRecipesCallback callback) {
         docs = new HashMap<>();
 
         db.collection("recipes")
+                .orderBy(Constans.CREATED_DATE_FIELD, Query.Direction.DESCENDING)
+                .limit(10)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -147,6 +150,7 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
 
         if(i == R.id.checkBox){
             searchBar.getText().clear();
+            // TODO: get my recipes from DB since we limit the result first!
             if(mojePrzepisy.isChecked()){
                 if(myRecipes.isEmpty()) {
                     for (Map.Entry<String, RecipeModel> recipe : resultMap.entrySet()){

@@ -5,4 +5,5 @@ public interface Constans {
     String RECIPE_ID = "RECIPE_ID";
     String INGREDIENT_ID = "INGREDIENT_ID";
     String STEP_ID = "STEP_ID";
+    String CREATED_DATE_FIELD = "createdAt";
 }
