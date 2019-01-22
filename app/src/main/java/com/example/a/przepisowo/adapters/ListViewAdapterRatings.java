@@ -48,7 +48,7 @@ public class ListViewAdapterRatings extends BaseAdapter {
             gridViewAndroid = inflater.inflate(R.layout.rating_row, null);
             TextView nick = (TextView) gridViewAndroid.findViewById(R.id.ratingRowNick);
             RatingBar ratingBar = (RatingBar) gridViewAndroid.findViewById(R.id.ratingRowRatingBar);
-            nick.setText(ratings.get(position).getUid());
+            nick.setText(ratings.get(position).getNick());
             ratingBar.setRating(ratings.get(position).getRating());
         } else {
             gridViewAndroid = (View) convertView;

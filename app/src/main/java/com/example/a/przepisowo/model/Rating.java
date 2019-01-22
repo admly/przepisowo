@@ -4,6 +4,7 @@ public class Rating {
     private String recipeId;
     private String uid;
     private float rating;
+    private String nick;
 
     public String getRecipeId() {
         return recipeId;
@@ -29,10 +30,19 @@ public class Rating {
         this.rating = rating;
     }
 
-    public Rating(String recipeId, String uid, float rating) {
+    public Rating(String recipeId, String uid, float rating, String nick) {
         this.recipeId = recipeId;
         this.uid = uid;
         this.rating = rating;
+        this.nick = nick;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 
     public Rating(){

@@ -78,7 +78,7 @@ public class OcenyFragment extends Fragment implements View.OnClickListener {
     private void sendRating(float rate) {
         CollectionReference ratings = db.collection("ratings");
         if (userRatingId == null) {
-            Rating rating = new Rating(recipeId, auth.getUid(), rate);
+            Rating rating = new Rating(recipeId, auth.getUid(), rate, auth.getCurrentUser().getEmail());
             ratings.add(rating);
         } else {
             ratings.document(userRatingId).update(RATING_FIELD, rate);
@@ -113,7 +113,9 @@ public class OcenyFragment extends Fragment implements View.OnClickListener {
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if(task.getResult() != null && !task.getResult().getDocuments().isEmpty()) {
                         for (DocumentSnapshot doc : task.getResult().getDocuments()) {
-                            ratings.add(doc.toObject(Rating.class));
+                            Rating rating = doc.toObject(Rating.class);
+                            if (rating.getUid().equals(auth.getUid())) continue;
+                            ratings.add(rating);
                         }
                         adapter = new ListViewAdapterRatings(getContext(), ratings);
                         listView.setAdapter(adapter);

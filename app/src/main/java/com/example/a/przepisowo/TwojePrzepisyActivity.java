@@ -128,7 +128,6 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
             for (Map.Entry<String, RecipeModel> recipe : recipesList.entrySet()) {
                 if (recipe.getValue().getName().equals(recipesNameList.get(+i))) {
                     goToEdytujPrzepisActivity(recipe);
-
                 }
             }
             }
