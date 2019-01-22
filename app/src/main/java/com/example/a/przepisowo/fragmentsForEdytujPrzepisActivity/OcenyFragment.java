@@ -36,7 +36,7 @@ public class OcenyFragment extends Fragment implements View.OnClickListener {
     FirebaseAuth auth;
     boolean listenerLock = true;
     String userRatingId;
-    List<Rating> ratings = new ArrayList<>();
+    List<Rating> ratings;
     private ListViewAdapterRatings adapter;
     ListView listView;
 
@@ -52,13 +52,14 @@ public class OcenyFragment extends Fragment implements View.OnClickListener {
         auth = FirebaseAuth.getInstance();
         recipeModel = (RecipeModel) this.getArguments().getSerializable(Constans.RECIPE_OBJECT);
         recipeId = this.getArguments().getString(Constans.RECIPE_ID);
-        checkIfAlreadyRated();
-        gatherRatings();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ratings = new ArrayList<>();
+        checkIfAlreadyRated();
+        gatherRatings();
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_oceny, container, false);
         ratingBar = rootView.findViewById(R.id.userRating);
