@@ -50,9 +50,9 @@ public class EdytujPrzepisActivity extends AppCompatActivity {
         fg3.setArguments(bundle);
         fg4.setArguments(bundle);
 
+        adapter.addFragment(fg3, "Info");
         adapter.addFragment(fg1, "Składniki");
         adapter.addFragment(fg2, "Przepis");
-        adapter.addFragment(fg3, "Czas");
         adapter.addFragment(fg4, "Oceny");
         viewPager.setAdapter(adapter);
 

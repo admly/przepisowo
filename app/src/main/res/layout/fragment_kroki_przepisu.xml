@@ -5,7 +5,7 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#c0fbff">
+    android:background="@android:color/black">
 
     <ScrollView
         android:id="@+id/scrollView3"
@@ -31,6 +31,7 @@
                 android:layout_marginTop="44dp"
                 android:layout_marginEnd="5dp"
                 android:text="Przepis:"
+                android:textColor="@android:color/white"
                 android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.518"
