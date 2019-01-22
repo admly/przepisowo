@@ -124,13 +124,13 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int i, long id) {
-                //przeslij ID przepisu do edycji
-                for (Map.Entry<String, RecipeModel> recipe : recipesList.entrySet()) {
-                    if (recipe.getValue().getName().equals(recipesNameList.get(+i))) {
-                        goToEdytujPrzepisActivity(recipe);
+            //przeslij ID przepisu do edycji
+            for (Map.Entry<String, RecipeModel> recipe : recipesList.entrySet()) {
+                if (recipe.getValue().getName().equals(recipesNameList.get(+i))) {
+                    goToEdytujPrzepisActivity(recipe);
 
-                    }
                 }
+            }
             }
         });
 

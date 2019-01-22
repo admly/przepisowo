@@ -7,26 +7,24 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RatingBar;
 
 import com.example.a.przepisowo.Constans;
 import com.example.a.przepisowo.R;
 import com.example.a.przepisowo.TwojePrzepisyActivity;
+import com.example.a.przepisowo.adapters.ListViewAdapterRatings;
 import com.example.a.przepisowo.model.Rating;
 import com.example.a.przepisowo.model.RecipeModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class OcenyFragment extends Fragment implements View.OnClickListener {
@@ -39,6 +37,8 @@ public class OcenyFragment extends Fragment implements View.OnClickListener {
     boolean listenerLock = true;
     String userRatingId;
     List<Rating> ratings = new ArrayList<>();
+    private ListViewAdapterRatings adapter;
+    ListView listView;
 
     static final String UID_FIELD = "uid";
     static final String RECIPE_ID_FIELD = "recipeId";
@@ -66,11 +66,12 @@ public class OcenyFragment extends Fragment implements View.OnClickListener {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                if (!listenerLock) {
-                    sendRating(rating);
-                }
+            if (!listenerLock) {
+                sendRating(rating);
+            }
             }
         });
+        listView = (ListView) rootView.findViewById(R.id.ratingsListView);
         return rootView;
     }
 
@@ -114,6 +115,8 @@ public class OcenyFragment extends Fragment implements View.OnClickListener {
                         for (DocumentSnapshot doc : task.getResult().getDocuments()) {
                             ratings.add(doc.toObject(Rating.class));
                         }
+                        adapter = new ListViewAdapterRatings(getContext(), ratings);
+                        listView.setAdapter(adapter);
                     }
                 }
             });

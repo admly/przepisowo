@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
-    android:background="#c0fbff">
+    android:background="#000">
 
     <ScrollView
         android:id="@+id/scrollView3"
@@ -35,9 +34,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.518"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="#FFFFFF"
+                />
 
             <RatingBar
+                android:background="@drawable/rounded_background"
                 android:id="@+id/userRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,32 +48,42 @@
                 android:numStars="5"
                 android:stepSize="1"
                 android:clickable="true"
+                android:paddingTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.518"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textView4"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Oceny innych użytkowników:"
-                android:textSize="30sp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 app:layout_constraintTop_toBottomOf="@+id/userRating"
                 app:layout_constraintStart_toStartOf="@+id/userRating"
                 app:layout_constraintEnd_toEndOf="@+id/userRating"
-                />
+                android:orientation="vertical">
 
-            <include
-                android:id="@+id/include"
-                layout="@layout/content_edytuj_przepis_presentation"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/constraintLayout2" />
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Oceny innych użytkowników:"
+                    android:textSize="28sp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#FFFFFF"
+                    />
+
+                <ListView
+                    android:id="@+id/ratingsListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:layout_marginTop="20dp"
+                    android:dividerHeight="2dp"
+                    android:footerDividersEnabled="false"
+                    android:headerDividersEnabled="true">
+                </ListView>
+            </LinearLayout>
+
 
         </android.support.constraint.ConstraintLayout>
 
