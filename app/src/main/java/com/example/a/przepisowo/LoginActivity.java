@@ -71,14 +71,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            if(checkIfEmailVerified()){
+//                            if(checkIfEmailVerified()){
                                 updateUI(user);
                                 goToMainActivity();
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Confirmation email was sent. Please activate your account.",
-                                        Toast.LENGTH_LONG).show();
-                                sendEmailVerification();
-                            }
+//                            } else {
+//                                Toast.makeText(LoginActivity.this, "Confirmation email was sent. Please activate your account.",
+//                                        Toast.LENGTH_LONG).show();
+//                                sendEmailVerification();
+//                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -110,15 +110,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            if (checkIfEmailVerified()) {
+//                            if (checkIfEmailVerified()) {
                                 updateUI(user);
                                 goToMainActivity();
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Confirm your email." +
-                                                " It was sent again.",
-                                        Toast.LENGTH_LONG).show();
-                                sendEmailVerification();
-                            }
+//                            } else {
+//                                Toast.makeText(LoginActivity.this, "Confirm your email." +
+//                                                " It was sent again.",
+//                                        Toast.LENGTH_LONG).show();
+//                                sendEmailVerification();
+//                            }
 
                         } else {
                             // If sign in fails, display a message to the user.

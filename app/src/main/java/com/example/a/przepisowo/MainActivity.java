@@ -20,39 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView ivDodajPrzepis;
     private ImageView ivPrzepisy;
 
-    /**
-     * Dodaje menu do action bara
-     * @param menu
-     * @return
-     */
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
 
-//    /**
-//     * Obsługa dropdown menu
-//     * @param menu
-//     * @return
-//     */
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item)
-//    {
-//        switch (item.getItemId())
-//        {
-//            case R.id.ustawieniaUzytkownika:
-//                goToSettings();
-//                return true;
-//            case R.id.WylogujUseraViaDropdown:
-//                mAuth.signOut();
-//                goToLoginActivity();
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
 
     private void goToSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
@@ -83,14 +51,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ivDodajPrzepis = findViewById(R.id.iv_user);
         ivDodajPrzepis.setClickable(true);
         ivDodajPrzepis.setOnClickListener(this);
+        helloUser = findViewById(R.id.helloUserTv);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         if (mAuth != null) {
-            helloUser = findViewById(R.id.helloUserTv);
-            if (!mAuth.getCurrentUser().getDisplayName().isEmpty()) {
+            if (mAuth.getCurrentUser().getDisplayName() !=null && !mAuth.getCurrentUser().getDisplayName().isEmpty()) {
                 helloUser.setText(mAuth.getCurrentUser().getDisplayName());
             } else {
                 helloUser.setText(mAuth.getCurrentUser().getEmail().split("@")[0]);

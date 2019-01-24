@@ -56,6 +56,35 @@
  />
     </LinearLayout>
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/filtrujLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginVertical="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+
+        <Button
+            android:id="@+id/filterPrzepisyBt"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/roundedbutton"
+            android:elevation="0dp"
+            android:hint="Filtruj"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
     <ListView
         android:id="@+id/listView2"
         android:layout_width="match_parent"

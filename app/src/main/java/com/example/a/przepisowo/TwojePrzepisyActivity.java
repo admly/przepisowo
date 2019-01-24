@@ -1,5 +1,6 @@
 package com.example.a.przepisowo;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -9,12 +10,16 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.a.przepisowo.adapters.ListViewAdapterPrzepisyPrezentacja;
 import com.example.a.przepisowo.callbacks.FetchRecipesCallback;
+import com.example.a.przepisowo.dialogFragment.FilterDialogFragment;
+import com.example.a.przepisowo.dialogFragment.NoticeDialogListener;
+import com.example.a.przepisowo.model.Categories;
 import com.example.a.przepisowo.model.RecipeModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnClickListener {
+public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnClickListener, NoticeDialogListener {
 
     private static final String TAG = "TwojePrzepisyActivity";
     FirebaseFirestore db;
@@ -44,7 +49,9 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
     Map<String, RecipeModel> currentRecipes;
     Map<String, RecipeModel> myRecipes = new HashMap<>();
     EditText searchBar;
-
+    Button filterPrzepisyBt;
+    Categories categoriesObj;
+    List<String> filteredCategories;
     int[] gridViewImageId = {
             R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie,
             R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie,
@@ -60,6 +67,7 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
         this.searchBar = findViewById(R.id.et_search);
         searchBar.clearFocus();
         findViewById(R.id.powrotDoMenu).setOnClickListener(this);
+        findViewById(R.id.filterPrzepisyBt).setOnClickListener(this);
     }
 
     @Override
@@ -67,7 +75,7 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
         super.onStart();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-
+        getCategoriesFromFirestore();
         getLastRecipesFromFirestore(new FetchRecipesCallback() {
             @Override
             public void onCallback(Map<String, RecipeModel> value) {
@@ -100,6 +108,30 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
                                 docs.put(document.getId(), document.toObject(RecipeModel.class));
                             }
                             callback.onCallback(docs);
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Pobierz liste kategorii
+     * @param
+     */
+    private void getCategoriesFromFirestore() {
+        docs = new HashMap<>();
+
+        db.collection("categories")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                categoriesObj = document.toObject(Categories.class);
+                            }
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
@@ -165,6 +197,13 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
             setUpListView(currentRecipes);
         }  if(i == R.id.powrotDoMenu){
             goToMainActivity();
+        } if (i == R.id.filterPrzepisyBt){
+            FilterDialogFragment filterDialogFragment = new FilterDialogFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constans.CATEGORIES_OBJECT, categoriesObj);
+            bundle.putStringArrayList(Constans.FILTERED_CATEGORIES, (ArrayList<String>) filteredCategories);
+            filterDialogFragment.setArguments(bundle);
+            filterDialogFragment.show(getFragmentManager(), "Fragment");
         }
     }
 
@@ -204,5 +243,33 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
             }
         }
         return filteredResult;
+    }
+
+    private Map<String, RecipeModel> filterRecipesByCategories(List<String> categories) {
+        Map<String, RecipeModel> filteredResult = new HashMap<>();
+        for (Map.Entry<String, RecipeModel> r : this.currentRecipes.entrySet()) {
+            for(String category : categories) {
+                if (r.getValue().getCategory() != null && r.getValue().getCategory().startsWith(category)) {
+                    filteredResult.put(r.getKey(), r.getValue());
+                }
+            }
+        }
+        return filteredResult;
+    }
+
+
+    @Override
+    public void onDialogPositiveClick(FilterDialogFragment dialog) {
+        filteredCategories = dialog.getmSelectedItems();
+        if(filteredCategories.size()> 0) {
+            setUpListView(filterRecipesByCategories(filteredCategories));
+        } else{
+            setUpListView(currentRecipes);
+        }
+    }
+
+    @Override
+    public void onDialogNegativeClick(FilterDialogFragment dialog) {
+        dialog.getShowsDialog();
     }
 }
