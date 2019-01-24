@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,7 +30,10 @@ public class DodajPrzepis extends AppCompatActivity implements View.OnClickListe
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     FirebaseUser currentUser;
-
+    CheckBox sniadanieCheckBox;
+    CheckBox obiadCheckBox;
+    CheckBox kolacjaCheckBox;
+    CheckBox przystawkaCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,10 @@ public class DodajPrzepis extends AppCompatActivity implements View.OnClickListe
         skladnikiEt = findViewById(R.id.skladnikiEt);
         przepisEt = findViewById(R.id.przepisEt);
         czasEt = findViewById(R.id.czasEt);
+        sniadanieCheckBox = findViewById(R.id.sniadanieCheckBox);
+        obiadCheckBox = findViewById(R.id.obiadCheckBox);
+        kolacjaCheckBox= findViewById(R.id.kolacjaCheckBox);
+        przystawkaCheckBox = findViewById(R.id.przystawkaCheckBox);
     }
 
     @Override
@@ -94,8 +102,24 @@ public class DodajPrzepis extends AppCompatActivity implements View.OnClickListe
                 .replaceAll("\\s+", " ")
                 .split("\\s*,\\s*")));
 
+        List<String> kategorie = new ArrayList<>();
+        if(przystawkaCheckBox.isChecked()){
+            kategorie.add("Przystawka");
+        }
+        if(obiadCheckBox.isChecked()){
+            kategorie.add("Obiad");
+        }
+
+        if(kolacjaCheckBox.isChecked()){
+            kategorie.add("Kolacja");
+        }
+
+        if(sniadanieCheckBox.isChecked()){
+            kategorie.add("Sniadanie");
+        }
+
         return new RecipeModel(currentUser.getUid(), skladniki,
-                nazwaPrzepisu.trim(), przepis, czas);
+                nazwaPrzepisu.trim(), przepis, czas, (ArrayList<String>) kategorie);
     }
 
     public void goToTwojePrzepisy() {

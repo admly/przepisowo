@@ -97,8 +97,6 @@
 
                 <TextView />
             </TableRow>
-            =
-
             <TableRow>
 
                 <TextView
@@ -160,6 +158,60 @@
                     android:textColor="@android:color/white"
                     tools:layout_editor_absoluteX="80dp"
                     tools:layout_editor_absoluteY="405dp" />
+            </TableRow>
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Kategorie:"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    tools:layout_editor_absoluteX="162dp"
+                    tools:layout_editor_absoluteY="368dp" />
+            </TableRow>
+
+            <TableRow android:gravity="center">
+                <CheckBox
+                    android:id="@+id/sniadanieCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sniadanie"
+                    android:textAlignment="viewStart"
+                    tools:layout_editor_absoluteX="161dp"
+                    tools:layout_editor_absoluteY="439dp" />
+            </TableRow>
+
+            <TableRow android:gravity="center">
+                <CheckBox
+                    android:id="@+id/obiadCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Obiad"
+                    tools:layout_editor_absoluteX="161dp"
+                    tools:layout_editor_absoluteY="439dp" />
+            </TableRow>
+
+            <TableRow android:gravity="center_horizontal|center">
+                <CheckBox
+                    android:id="@+id/kolacjaCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kolacja"
+                    tools:layout_editor_absoluteX="161dp"
+                    tools:layout_editor_absoluteY="439dp" />
+            </TableRow>
+
+            <TableRow android:gravity="center_horizontal|center">
+                <CheckBox
+                    android:id="@+id/przystawkaCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Przystawka"
+                    tools:layout_editor_absoluteX="161dp"
+                    tools:layout_editor_absoluteY="439dp" />
             </TableRow>
         </TableLayout>
     </ScrollView>

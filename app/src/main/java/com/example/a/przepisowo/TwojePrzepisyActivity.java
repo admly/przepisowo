@@ -249,8 +249,12 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
         Map<String, RecipeModel> filteredResult = new HashMap<>();
         for (Map.Entry<String, RecipeModel> r : this.currentRecipes.entrySet()) {
             for(String category : categories) {
-                if (r.getValue().getCategory() != null && r.getValue().getCategory().startsWith(category)) {
-                    filteredResult.put(r.getKey(), r.getValue());
+                if(r.getValue().getCategories() != null){
+                    for(String categoryName : r.getValue().getCategories()){
+                        if (categoryName.startsWith(category)) {
+                            filteredResult.put(r.getKey(), r.getValue());
+                        }
+                    }
                 }
             }
         }

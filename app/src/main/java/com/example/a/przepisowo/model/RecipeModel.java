@@ -9,14 +9,15 @@ public class RecipeModel implements Serializable {
     private String name;
     private ArrayList<String> steps;
     private int time;
-    private String category;
+    private ArrayList<String> categories;
 
-    public RecipeModel(String UID, ArrayList<String> ingredients,  String name, ArrayList<String> steps, int time){
+    public RecipeModel(String UID, ArrayList<String> ingredients,  String name, ArrayList<String> steps, int time, ArrayList<String> categories){
         this.UID = UID;
         this.ingredients = ingredients;
         this.name = name;
         this.steps = steps;
         this.time = time;
+        this.categories = categories;
     }
 
     public RecipeModel(){}
@@ -61,11 +62,11 @@ public class RecipeModel implements Serializable {
         this.time = time;
     }
 
-    public String getCategory() {
-        return category;
+    public ArrayList<String> getCategories() {
+        return categories;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategories(ArrayList<String> categories) {
+        this.categories = categories;
     }
 }
