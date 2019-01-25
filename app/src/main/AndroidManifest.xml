@@ -31,6 +31,7 @@
         <activity android:name=".DodajStepActivity" />
         <activity android:name=".EdytujInfoActivity" />
         <activity android:name=".WyswietlPrzepisActivity" />
+        <activity android:name=".EdytujKategorieActivity"></activity>
     </application>
 
 </manifest>

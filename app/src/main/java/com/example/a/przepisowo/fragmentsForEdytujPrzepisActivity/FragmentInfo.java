@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.example.a.przepisowo.Constans;
 import com.example.a.przepisowo.EdytujInfoActivity;
+import com.example.a.przepisowo.EdytujKategorieActivity;
 import com.example.a.przepisowo.EdytujStepActivity;
 import com.example.a.przepisowo.R;
 import com.example.a.przepisowo.TwojePrzepisyActivity;
@@ -61,7 +62,28 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
             }
         });
 
+        foodList = new ArrayList<>();
+        foodList.addAll(recipeModel.getCategories());
+        list = (ListView) rootView.findViewById(R.id.listView4);
+        adapter = new ArrayAdapter<String>(this.getContext(), R.layout.row, foodList);
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                goToEdytujKategorie();
+            }
+        });
+
+
+
         return rootView;
+    }
+
+    private void goToEdytujKategorie() {
+        Intent intent = new Intent(this.getContext(), EdytujKategorieActivity.class);
+        intent.putExtra(Constans.RECIPE_OBJECT, recipeModel);
+        intent.putExtra(Constans.RECIPE_ID, recipeId);
+        startActivity(intent);
     }
 
     private void goToEdytujInfo() {

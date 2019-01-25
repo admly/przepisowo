@@ -1,6 +1,5 @@
 package com.example.a.przepisowo;
 
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +28,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,6 +91,7 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
 
     /**
      * Pobierz przepisy z firestore dla aktualnego usera
+     *
      * @param callback
      */
     private void getLastRecipesFromFirestore(final FetchRecipesCallback callback) {
@@ -117,6 +119,7 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
 
     /**
      * Pobierz liste kategorii
+     *
      * @param
      */
     private void getCategoriesFromFirestore() {
@@ -156,17 +159,15 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int i, long id) {
-            //przeslij ID przepisu do edycji
-            for (Map.Entry<String, RecipeModel> recipe : recipesList.entrySet()) {
-                if (recipe.getValue().getName().equals(recipesNameList.get(+i))) {
-                    goToEdytujPrzepisActivity(recipe);
+                //przeslij ID przepisu do edycji
+                for (Map.Entry<String, RecipeModel> recipe : recipesList.entrySet()) {
+                    if (recipe.getValue().getName().equals(recipesNameList.get(+i))) {
+                        goToEdytujPrzepisActivity(recipe);
+                    }
                 }
             }
-            }
         });
-
-
-            }
+    }
 
     public void goToEdytujPrzepisActivity(Map.Entry<String, RecipeModel> recipeWithId) {
         Intent intent = new Intent(this, EdytujPrzepisActivity.class);
@@ -179,13 +180,13 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
     public void onClick(View view) {
         int i = view.getId();
 
-        if(i == R.id.checkBox){
+        if (i == R.id.checkBox) {
             searchBar.getText().clear();
             // TODO: get my recipes from DB since we limit the result first!
-            if(mojePrzepisy.isChecked()){
-                if(myRecipes.isEmpty()) {
-                    for (Map.Entry<String, RecipeModel> recipe : resultMap.entrySet()){
-                        if(currentUser.getUid().equals(recipe.getValue().getUID())){
+            if (mojePrzepisy.isChecked()) {
+                if (myRecipes.isEmpty()) {
+                    for (Map.Entry<String, RecipeModel> recipe : resultMap.entrySet()) {
+                        if (currentUser.getUid().equals(recipe.getValue().getUID())) {
                             myRecipes.put(recipe.getKey(), recipe.getValue());
                         }
                     }
@@ -195,15 +196,17 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
                 currentRecipes = new HashMap<>(resultMap);
             }
             setUpListView(currentRecipes);
-        }  if(i == R.id.powrotDoMenu){
+        }
+        if (i == R.id.powrotDoMenu) {
             goToMainActivity();
-        } if (i == R.id.filterPrzepisyBt){
+        }
+        if (i == R.id.filterPrzepisyBt) {
             FilterDialogFragment filterDialogFragment = new FilterDialogFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constans.CATEGORIES_OBJECT, categoriesObj);
             bundle.putStringArrayList(Constans.FILTERED_CATEGORIES, (ArrayList<String>) filteredCategories);
             filterDialogFragment.setArguments(bundle);
-            filterDialogFragment.show(getFragmentManager(), "Fragment");
+            filterDialogFragment.show(getFragmentManager(), "FilterDialogFragment");
         }
     }
 
@@ -247,27 +250,24 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
 
     private Map<String, RecipeModel> filterRecipesByCategories(List<String> categories) {
         Map<String, RecipeModel> filteredResult = new HashMap<>();
+
         for (Map.Entry<String, RecipeModel> r : this.currentRecipes.entrySet()) {
-            for(String category : categories) {
-                if(r.getValue().getCategories() != null){
-                    for(String categoryName : r.getValue().getCategories()){
-                        if (categoryName.startsWith(category)) {
-                            filteredResult.put(r.getKey(), r.getValue());
-                        }
-                    }
+            if (r.getValue().getCategories() != null) {
+                ArrayList<String> list = r.getValue().getCategories();
+                if (CollectionUtils.containsAll(list, categories)) {
+                    filteredResult.put(r.getKey(), r.getValue());
                 }
             }
         }
         return filteredResult;
     }
 
-
     @Override
     public void onDialogPositiveClick(FilterDialogFragment dialog) {
         filteredCategories = dialog.getmSelectedItems();
-        if(filteredCategories.size()> 0) {
+        if (filteredCategories.size() > 0) {
             setUpListView(filterRecipesByCategories(filteredCategories));
-        } else{
+        } else {
             setUpListView(currentRecipes);
         }
     }

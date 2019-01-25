@@ -26,6 +26,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.1.0'
     implementation 'org.apache.commons:commons-lang3:3.8.1'
     implementation 'com.google.firebase:firebase-firestore:17.1.5'
+    implementation 'org.apache.commons:commons-collections4:4.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
