@@ -18,6 +18,8 @@ import com.example.a.przepisowo.EdytujStepActivity;
 import com.example.a.przepisowo.R;
 import com.example.a.przepisowo.TwojePrzepisyActivity;
 import com.example.a.przepisowo.model.RecipeModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,8 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
     private List<String> foodList;
     RecipeModel recipeModel;
     String recipeId;
+    FirebaseUser currentUser;
+    private FirebaseAuth mAuth;
 
     public FragmentInfo() {
         // Required empty public constructor
@@ -38,6 +42,8 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         recipeModel = (RecipeModel) this.getArguments().getSerializable(Constans.RECIPE_OBJECT);
         recipeId = this.getArguments().getString(Constans.RECIPE_ID);
+        mAuth = FirebaseAuth.getInstance();
+
     }
 
     @Override
@@ -47,7 +53,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_info, container, false);
         rootView.findViewById(R.id.twojePrzepisyWsteczBt3).setOnClickListener(this);
-
+        currentUser = mAuth.getCurrentUser();
 
         foodList = new ArrayList<>();
         foodList.add(Integer.toString(recipeModel.getTime()));
@@ -55,24 +61,33 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         list = (ListView) rootView.findViewById(R.id.listView1);
         adapter = new ArrayAdapter<String>(this.getContext(), R.layout.row, foodList);
         list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                goToEdytujInfo();
+
+        if (recipeModel.getUID() != null) {
+            if (currentUser.getUid().equals(recipeModel.getUID())) {
+                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        goToEdytujInfo();
+                    }
+                });
             }
-        });
-        if(recipeModel.getCategories() != null) {
+        }
+        if (recipeModel.getCategories() != null) {
             foodList = new ArrayList<>();
             foodList.addAll(recipeModel.getCategories());
             list = (ListView) rootView.findViewById(R.id.listView4);
             adapter = new ArrayAdapter<String>(this.getContext(), R.layout.row, foodList);
             list.setAdapter(adapter);
-            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    goToEdytujKategorie();
+            if (recipeModel.getUID() != null) {
+                if (currentUser.getUid().equals(recipeModel.getUID())) {
+                    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            goToEdytujKategorie();
+                        }
+                    });
                 }
-            });
+            }
 
         }
 
@@ -102,6 +117,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
             goToTwojePrzepisy();
         }
     }
+
     private void goToTwojePrzepisy() {
         Intent intent = new Intent(this.getActivity(), TwojePrzepisyActivity.class);
         startActivity(intent);

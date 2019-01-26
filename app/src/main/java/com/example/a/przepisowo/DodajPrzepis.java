@@ -123,7 +123,7 @@ public class DodajPrzepis extends AppCompatActivity implements View.OnClickListe
     }
 
     public void goToTwojePrzepisy() {
-        Intent intent = new Intent(this, TwojePrzepisyActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
