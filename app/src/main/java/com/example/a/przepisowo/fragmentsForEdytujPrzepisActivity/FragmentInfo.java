@@ -61,20 +61,20 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
                 goToEdytujInfo();
             }
         });
+        if(recipeModel.getCategories() != null) {
+            foodList = new ArrayList<>();
+            foodList.addAll(recipeModel.getCategories());
+            list = (ListView) rootView.findViewById(R.id.listView4);
+            adapter = new ArrayAdapter<String>(this.getContext(), R.layout.row, foodList);
+            list.setAdapter(adapter);
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    goToEdytujKategorie();
+                }
+            });
 
-        foodList = new ArrayList<>();
-        foodList.addAll(recipeModel.getCategories());
-        list = (ListView) rootView.findViewById(R.id.listView4);
-        adapter = new ArrayAdapter<String>(this.getContext(), R.layout.row, foodList);
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                goToEdytujKategorie();
-            }
-        });
-
-
+        }
 
         return rootView;
     }
