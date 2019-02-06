@@ -1,6 +1,7 @@
 package com.example.a.przepisowo;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,7 +26,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -45,7 +45,6 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
     HashMap<String, RecipeModel> docs;
     private List<String> recipesNameList;
     ListView androidGridView;
-    CheckBox mojePrzepisy;
     Map<String, RecipeModel> resultMap;
     Map<String, RecipeModel> currentRecipes;
     Map<String, RecipeModel> myRecipes = new HashMap<>();
@@ -58,17 +57,30 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
             R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie, R.drawable.jedzenie,
     };
 
+    Button nameFilter;
+    Button ingFilter;
+    SearchStrategy searchStrategy = SearchStrategy.NAME;
+    Drawable activeButtonDrawable;
+    Drawable deactivatedButtonDrawable;
+
+
+    FirestoreService firestoreService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.przepisy_prezentacja);
         db = FirebaseFirestore.getInstance();
-        mojePrzepisy = findViewById(R.id.checkBox);
-        mojePrzepisy.setOnClickListener(this);
         this.searchBar = findViewById(R.id.et_search);
+        this.nameFilter = findViewById(R.id.name_button);
+        this.ingFilter = findViewById(R.id.ing_button);
+        activeButtonDrawable = getResources().getDrawable(R.drawable.roundedbutton);
+        deactivatedButtonDrawable = getResources().getDrawable(R.drawable.greyed_roundedbutton);
         searchBar.clearFocus();
         findViewById(R.id.powrotDoMenu).setOnClickListener(this);
         findViewById(R.id.filterPrzepisyBt).setOnClickListener(this);
+        findViewById(R.id.name_button).setOnClickListener(this);
+        findViewById(R.id.ing_button).setOnClickListener(this);
     }
 
     @Override
@@ -76,8 +88,9 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
         super.onStart();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+        firestoreService = new FirestoreService(mAuth, db);
         getCategoriesFromFirestore();
-        getLastRecipesFromFirestore(new FetchRecipesCallback() {
+        firestoreService.getLastRecipesFromFirestore(new FetchRecipesCallback() {
             @Override
             public void onCallback(Map<String, RecipeModel> value) {
                 resultMap = value;
@@ -89,33 +102,6 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
         });
     }
 
-    /**
-     * Pobierz przepisy z firestore dla aktualnego usera
-     *
-     * @param callback
-     */
-    private void getLastRecipesFromFirestore(final FetchRecipesCallback callback) {
-        docs = new HashMap<>();
-
-        db.collection("recipes")
-                .orderBy(Constans.CREATED_DATE_FIELD, Query.Direction.DESCENDING)
-                .limit(10)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                docs.put(document.getId(), document.toObject(RecipeModel.class));
-                            }
-                            callback.onCallback(docs);
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
-    }
 
     /**
      * Pobierz liste kategorii
@@ -179,24 +165,41 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View view) {
         int i = view.getId();
-
-        if (i == R.id.checkBox) {
+        if (i == R.id.name_button) {
+            this.searchStrategy = SearchStrategy.NAME;
+            nameFilter.setBackground(activeButtonDrawable);
+            ingFilter.setBackground(deactivatedButtonDrawable);
             searchBar.getText().clear();
-            // TODO: get my recipes from DB since we limit the result first!
-            if (mojePrzepisy.isChecked()) {
-                if (myRecipes.isEmpty()) {
-                    for (Map.Entry<String, RecipeModel> recipe : resultMap.entrySet()) {
-                        if (currentUser.getUid().equals(recipe.getValue().getUID())) {
-                            myRecipes.put(recipe.getKey(), recipe.getValue());
-                        }
-                    }
-                }
-                currentRecipes = myRecipes;
-            } else {
-                currentRecipes = new HashMap<>(resultMap);
-            }
-            setUpListView(currentRecipes);
         }
+        if (i == R.id.ing_button) {
+            this.searchStrategy = SearchStrategy.INGREDIENT;
+            nameFilter.setBackground(deactivatedButtonDrawable);
+            ingFilter.setBackground(activeButtonDrawable);
+            searchBar.getText().clear();
+        }
+//        if (i == R.id.checkBox) {
+//            searchBar.getText().clear();
+//            // TODO: get my recipes from DB since we limit the result first!
+//            if (mojePrzepisy.isChecked()) {
+//                firestoreService.getMyRecipesOnly(new FetchRecipesCallback() {
+//                    @Override
+//                    public void onCallback(Map<String, RecipeModel> value) {
+//                        resultMap = value;
+//                        currentRecipes = new HashMap<>(resultMap);
+//                        setUpListView(currentRecipes);
+//                    }
+//                });
+//            } else {
+//                firestoreService.getLastRecipesFromFirestore(new FetchRecipesCallback() {
+//                    @Override
+//                    public void onCallback(Map<String, RecipeModel> value) {
+//                        resultMap = value;
+//                        currentRecipes = new HashMap<>(resultMap);
+//                        setUpListView(currentRecipes);
+//                    }
+//                });
+//            }
+//        }
         if (i == R.id.powrotDoMenu) {
             goToMainActivity();
         }
@@ -229,51 +232,101 @@ public class TwojePrzepisyActivity extends AppCompatActivity implements View.OnC
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().length() > 0) {
-                    setUpListView(filterRecipesByName(s.toString()));
+                if (s.toString().length() > 1) {
+                    if (searchStrategy.equals(SearchStrategy.NAME)) {
+                        firestoreService.getRecipesByName(new FetchRecipesCallback() {
+                            @Override
+                            public void onCallback(Map<String, RecipeModel> value) {
+                                resultMap = value;
+                                currentRecipes = new HashMap<>(resultMap);
+                                setUpListView(currentRecipes);
+                            }
+                        }, s.toString());
+                    } else {
+                        firestoreService.getRecipesByIngredients(new FetchRecipesCallback() {
+                            @Override
+                            public void onCallback(Map<String, RecipeModel> value) {
+                                resultMap = value;
+                                currentRecipes = new HashMap<>(resultMap);
+                                setUpListView(currentRecipes);
+                            }
+                        }, s.toString());
+                    }
                 } else {
-                    setUpListView(currentRecipes);
+                    firestoreService.getLastRecipesFromFirestore(new FetchRecipesCallback() {
+                        @Override
+                        public void onCallback(Map<String, RecipeModel> value) {
+                            resultMap = value;
+                            currentRecipes = new HashMap<>(resultMap);
+                            setUpListView(currentRecipes);
+                        }
+                    });
                 }
+                filteredCategories = new ArrayList<>();
             }
         });
     }
 
-    private Map<String, RecipeModel> filterRecipesByName(String name) {
+    private Map<String, RecipeModel> filterRecipesByCategories(List<String> input) {
         Map<String, RecipeModel> filteredResult = new HashMap<>();
-        for (Map.Entry<String, RecipeModel> r : this.currentRecipes.entrySet()) {
-            if (r.getValue().getName().startsWith(name)) {
-                filteredResult.put(r.getKey(), r.getValue());
+        List<String> categories = new ArrayList<>();
+        boolean onlyMine = false;
+        for (String cat : input) {
+            if (!cat.equals("Tylko moje")) {
+                categories.add(cat);
+            } else {
+                onlyMine = true;
             }
         }
-        return filteredResult;
-    }
-
-    private Map<String, RecipeModel> filterRecipesByCategories(List<String> categories) {
-        Map<String, RecipeModel> filteredResult = new HashMap<>();
-
         for (Map.Entry<String, RecipeModel> r : this.currentRecipes.entrySet()) {
             if (r.getValue().getCategories() != null) {
                 ArrayList<String> list = r.getValue().getCategories();
                 if (CollectionUtils.containsAll(list, categories)) {
-                    filteredResult.put(r.getKey(), r.getValue());
+                    if (onlyMine) {
+                        if(mAuth.getUid().equals(r.getValue().getUID())){
+                            filteredResult.put(r.getKey(), r.getValue());
+                        }
+                    } else {
+                        filteredResult.put(r.getKey(), r.getValue());
+                    }
                 }
             }
         }
+
         return filteredResult;
     }
 
     @Override
     public void onDialogPositiveClick(FilterDialogFragment dialog) {
+        searchBar.getText().clear();
         filteredCategories = dialog.getmSelectedItems();
         if (filteredCategories.size() > 0) {
-            setUpListView(filterRecipesByCategories(filteredCategories));
+            firestoreService.getAllRecipesFirestore(new FetchRecipesCallback() {
+                @Override
+                public void onCallback(Map<String, RecipeModel> value) {
+                    resultMap = value;
+                    currentRecipes = new HashMap<>(resultMap);
+                    setUpListView(filterRecipesByCategories(filteredCategories));
+                }
+            });
         } else {
-            setUpListView(currentRecipes);
+            firestoreService.getLastRecipesFromFirestore(new FetchRecipesCallback() {
+                @Override
+                public void onCallback(Map<String, RecipeModel> value) {
+                    resultMap = value;
+                    currentRecipes = new HashMap<>(resultMap);
+                    setUpListView(currentRecipes);
+                }
+            });
         }
     }
 
     @Override
     public void onDialogNegativeClick(FilterDialogFragment dialog) {
         dialog.getShowsDialog();
+    }
+
+    private enum SearchStrategy {
+        NAME, INGREDIENT;
     }
 }

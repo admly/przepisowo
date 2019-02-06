@@ -22,13 +22,15 @@ public class FilterDialogFragment extends DialogFragment {
     Categories categories;
     ArrayList<String> filteredCategories;
     boolean[] isCheckedItem;
+    boolean onlyMine;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         categories = (Categories) this.getArguments().getSerializable(Constans.CATEGORIES_OBJECT);
         filteredCategories = this.getArguments().getStringArrayList(Constans.FILTERED_CATEGORIES);
-        CharSequence[] filters = new CharSequence[categories.getDishTypes().size()];
-        isCheckedItem = new boolean[categories.getDishTypes().size()];
+        onlyMine = this.getArguments().getBoolean(Constans.ONLY_MINE);
+        CharSequence[] filters = new CharSequence[categories.getDishTypes().size()+1];
+        isCheckedItem = new boolean[categories.getDishTypes().size()+1];
         for(int i=0; i < categories.getDishTypes().size(); i++){
             filters[i] = categories.getDishTypes().get(i);
         }
@@ -41,6 +43,8 @@ public class FilterDialogFragment extends DialogFragment {
                 }
             }
         }
+        filters[categories.getDishTypes().size()] = "Tylko moje";
+        isCheckedItem[categories.getDishTypes().size()] = onlyMine;
 
 
         mSelectedItems = new ArrayList<>();  // Where we track the selected items
@@ -104,9 +108,18 @@ public class FilterDialogFragment extends DialogFragment {
 
     public List<String> getmSelectedItems() {
         List<String> selectedCategories = new ArrayList<>();
-        for(Integer i : mSelectedItems){
-            selectedCategories.add(categories.getDishTypes().get(i));
-        }
+        for(int in = 0; in < mSelectedItems.size(); in++){
+
+                if (mSelectedItems.get(in).equals(4)){
+                    selectedCategories.add("Tylko moje");
+                } else {
+                    selectedCategories.add(categories.getDishTypes().get(mSelectedItems.get(in)));
+                }
+            }
         return selectedCategories;
+    }
+
+    public boolean isOnlyMine() {
+        return this.onlyMine;
     }
 }

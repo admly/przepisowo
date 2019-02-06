@@ -26,8 +26,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
-
         <EditText
             android:id="@+id/et_search"
             android:layout_width="160dp"
@@ -44,52 +42,38 @@
             android:src="@drawable/search"
             android:contentDescription="search"/>
 
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:text="Tylko moje przepisy"
-            android:hint="Szukaj..."
-            android:textSize="14sp"
-            android:textColor="@android:color/white"
- />
-    </LinearLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/filtrujLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-
-
         <Button
-            android:id="@+id/filterPrzepisyBt"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/name_button"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:background="@drawable/roundedbutton"
-            android:elevation="0dp"
-            android:hint="Filtruj"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="14sp"
+            android:layout_marginStart="10dp"
+            android:text="Nazwa"/>
+        <Button
+            android:id="@+id/ing_button"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/greyed_roundedbutton"
+            android:textSize="14sp"
+            android:layout_marginStart="10dp"
+            android:text="Składniki"/>
 
-    </android.support.constraint.ConstraintLayout>
+        <!--<CheckBox-->
+            <!--android:id="@+id/checkBox"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="30dp"-->
+            <!--android:text="Tylko moje przepisy"-->
+            <!--android:textSize="14sp"-->
+            <!--android:textColor="@android:color/white"-->
+ <!--/>-->
+    </LinearLayout>
 
     <ListView
         android:id="@+id/listView2"
         android:layout_width="match_parent"
-        android:layout_height="454dp"
+        android:layout_height="504dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="10dp"
@@ -102,18 +86,33 @@
 
     </ListView>
 
-    <Button
-        android:id="@+id/powrotDoMenu"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="30dp"
-        android:background="@drawable/back"
-        android:textColor="#FFFF"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.6" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        >
+
+        <Button
+            android:id="@+id/powrotDoMenu"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="30dp"
+            android:background="@drawable/back"
+            android:textColor="#FFFF"
+            android:textSize="20sp"
+         />
+
+        <Button
+            android:id="@+id/filterPrzepisyBt"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="260dp"
+            android:background="@drawable/filter"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            />
+
+    </LinearLayout>
+
 </LinearLayout>

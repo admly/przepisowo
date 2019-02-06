@@ -8,4 +8,5 @@ public interface Constans {
     String CREATED_DATE_FIELD = "createdAt";
     String CATEGORIES_OBJECT = "CATEGORIES_OBJECT";
     String FILTERED_CATEGORIES = "FILTERED_CATEGORIES";
+    String ONLY_MINE = "ONLY_MINE";
 }
