@@ -47,7 +47,7 @@ public class ListViewAdapterPrzepisyPrezentacja extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if (convertView == null) {
+//        if (convertView == null) {
 
             gridViewAndroid = new View(mContext);
             gridViewAndroid = inflater.inflate(R.layout.table_row_przepisy_prezentacja_layout, null);
@@ -60,9 +60,9 @@ public class ListViewAdapterPrzepisyPrezentacja extends BaseAdapter {
             recipeName.setText(gridViewString.get(i));
             recipeTime.setText(String.valueOf(recipesTime.get(i)));
             recipeImg.setImageResource(gridViewImageId[i]);
-        } else {
-            gridViewAndroid = (View) convertView;
-        }
+//        } else {
+//            gridViewAndroid = (View) convertView;
+//        }
 
         return gridViewAndroid;
     }
